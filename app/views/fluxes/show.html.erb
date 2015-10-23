@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Motion:</strong>
+  <%= @flux.motion %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @flux.content %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @flux.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_flux_path(@flux) %> |
+<%= link_to 'Back', fluxes_path %>

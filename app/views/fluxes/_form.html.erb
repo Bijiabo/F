@@ -1,0 +1,29 @@
+<%= form_for(@flux) do |f| %>
+  <% if @flux.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@flux.errors.count, "error") %> prohibited this flux from being saved:</h2>
+
+      <ul>
+      <% @flux.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :motion %><br>
+    <%= f.text_field :motion %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_field :content %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
