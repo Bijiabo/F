@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# User will_paginate-bootstrap
+gem 'will_paginate-bootstrap'
+# Use Faker
+gem 'faker'
 # Use bootstrap-sass
 gem 'bootstrap-sass', '~> 3.3.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
