@@ -19,9 +19,9 @@ Rails.application.configure do
   host = 'localhost:3000'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.qq.com",
-    :port                 => 25,
-    :domain               => "qq.com",
+    :address              => ENV['SENDGRID_ADDRESS'],
+    :port                 => ENV['SENDGRID_PORT'],
+    :domain               => ENV['SENDGRID_DOMAIN'],
     :user_name            => ENV['SENDGRID_USERNAME'],
     :password             => ENV['SENDGRID_PASSWORD'],
     :authentication       => "plain"

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
 
-  default_mail_from = "account@bijiabo.com"
+  default_mail_from = ENV['SENDGRID_FORM']
 
   test "account_activation" do
     user = users(:bijiabobo)
