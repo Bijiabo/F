@@ -1,8 +1,6 @@
-== README
+#README
 
-## config/applcaition.yml
-
-
+config/applcaition.yml
 ```
 # 邮件服务器设置
 # 邮件服务器地址

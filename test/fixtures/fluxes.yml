@@ -2,10 +2,10 @@
 
 one:
   motion: MyString
-  content: MyString
-  user_id: MyString
+  content: MyText
+  user_id: 
 
 two:
   motion: MyString
-  content: MyString
-  user_id: MyString
+  content: MyText
+  user_id: 
