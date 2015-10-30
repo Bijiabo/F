@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "figaro"
 # User will_paginate-bootstrap
 gem 'will_paginate-bootstrap'
 # Use Faker
