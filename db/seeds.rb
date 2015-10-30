@@ -5,6 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# User
 User.create!(
   name: "admin",
   email: "admin@admin.com",
@@ -13,7 +15,6 @@ User.create!(
   admin: true,
   activated: true,
   activated_at: Time.zone.now
-
 )
 
 90.times do |n|
@@ -28,4 +29,10 @@ User.create!(
     activated: true,
     activated_at: Time.zone.now
   })
+end
+
+# Flux
+90.times do |n|
+  user = User.first
+  user.fluxes.create(motion: "share_text", content:"Hello,world.")
 end

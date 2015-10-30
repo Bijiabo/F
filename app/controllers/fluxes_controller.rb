@@ -4,12 +4,13 @@ class FluxesController < ApplicationController
   # GET /fluxes
   # GET /fluxes.json
   def index
-    @fluxes = Flux.all
+    @fluxes = Flux.paginate(page: params[:page])
   end
 
   # GET /fluxes/1
   # GET /fluxes/1.json
   def show
+    @flux = Flux.find(params[:id])
   end
 
   # GET /fluxes/new

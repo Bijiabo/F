@@ -1,11 +1,45 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  motion: MyString
+  motion: share_text
   content: MyText
-  user_id: 
+  created_at: <%= 10.minutes.ago %>
+  user_id: 1
 
 two:
-  motion: MyString
+  motion: share_text
   content: MyText
-  user_id: 
+  created_at: <%= 10.minutes.ago %>
+  user: bijiabobo
+
+orange:
+  motion: share_text
+  content: "I just ate an orange!"
+  created_at: <%= 10.minutes.ago %>
+  user: bijiabobo
+
+tau_manifesto:
+  motion: share_text
+  content: "Check out the @tauday site by @mhartl: http://tauday.com"
+  created_at: <%= 3.years.ago %>
+  user: bijiabobo
+
+cat_video:
+  motion: share_text
+  content: "Sad cats are sad: http://youtu.be/PKffm2uI4dk"
+  created_at: <%= 2.hours.ago %>
+  user: bijiabobo
+
+most_recent:
+  motion: share_text
+  content: "Writing a short test"
+  created_at: <%= Time.zone.now %>
+  user: bijiabobo
+
+<% 30.times do |n| %>
+flux_<%= n %>:
+  motion: share_text
+  content: "Writing a short test #{n}"
+  created_at: <%= 10.minutes.ago %>
+  user: bijiabobo
+<% end %>

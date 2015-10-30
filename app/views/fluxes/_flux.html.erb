@@ -1,0 +1,17 @@
+<p>
+  <%= gravatar_for flux.user, size: 50 %>
+</p>
+<p>
+  <%= link_to flux.user.name, flux.user %>
+  <%= flux.motion %>:
+</p>
+<p>
+  <%= flux.content %>
+</p>
+<p>
+  <%= link_to 'Show', flux %> |
+  <%= link_to 'Edit', edit_flux_path(flux) %> |
+  <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
+
+<hr>

@@ -26,4 +26,7 @@ class FluxTest < ActiveSupport::TestCase
     assert_not @flux.valid?
   end
 
+  test "order should be most recent first" do
+    assert_equal Flux.first, fluxes(:most_recent)
+  end
 end
