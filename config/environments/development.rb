@@ -19,13 +19,13 @@ Rails.application.configure do
   host = 'localhost:3000'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
-    :address        => 'smtp.sendgrid.net',
-    :port           => '587',
-    :authentication => :plain,
-    :user_name      => ENV['SENDGRID_USERNAME'],
-    :password       => ENV['SENDGRID_PASSWORD'],
-    :domain         => 'bijiabo.com',
-    :enable_starttls_auto => true
+    :address              => "smtp.qq.com",
+    :port                 => 25,
+    :domain               => "qq.com",
+    :user_name            => ENV['SENDGRID_USERNAME'],
+    :password             => ENV['SENDGRID_PASSWORD'],
+    :authentication       => "plain"
+    # :enable_starttls_auto => true
   }
 
   # Print deprecation notices to the Rails logger.
