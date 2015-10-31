@@ -1,17 +1,23 @@
-<p>
-  <%= gravatar_for flux.user, size: 50 %>
-</p>
-<p>
-  <%= link_to flux.user.name, flux.user %>
-  <%= flux.motion %>:
-</p>
-<p>
-  <%= flux.content %>
-</p>
-<p>
-  <%= link_to 'Show', flux %> |
-  <%= link_to 'Edit', edit_flux_path(flux) %> |
-  <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' } %>
-</p>
+<div class="media">
+  <div class="media-left">
+    <a href="#">
+      <%= gravatar_for flux.user, size: 50 %>
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <%= link_to flux.user.name, flux.user %>
+      <%= flux.motion %>:
+    </h4>
+    <p>
+      <%= flux.content %>
+    </p>
+    <p>
+      <%= link_to 'Show', flux %> |
+      <%= link_to 'Edit', edit_flux_path(flux) %> |
+      <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </p>
+  </div>
+</div>
 
 <hr>

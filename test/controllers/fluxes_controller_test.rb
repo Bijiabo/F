@@ -2,9 +2,11 @@ require 'test_helper'
 
 class FluxesControllerTest < ActionController::TestCase
   setup do
-    @flux = fluxes(:one)
+    @user = users(:bijiabobo)
+    flux = fluxes(:one)
+    @flux = @user.fluxes.create(motion: flux.motion, content: flux.content)
   end
-=begin
+
   test "should get index" do
     get :index
     assert_response :success
@@ -47,5 +49,5 @@ class FluxesControllerTest < ActionController::TestCase
     assert_redirected_to fluxes_path
   end
 
-=end
+
 end
