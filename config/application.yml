@@ -10,6 +10,10 @@
 #   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
+# 基础设置
+Base_title: Bijiabo.com
+Logo_text: Bijiabo
+
 # 邮件服务器设置
 # 邮件服务器地址
 SENDGRID_ADDRESS: smtp.qq.com
