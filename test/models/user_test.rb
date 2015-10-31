@@ -63,7 +63,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "associated microposts should be destroyed" do
     @user.save
-    @user.fluxes.create!(content: "Lorem ipsum")
+    @user.fluxes.create!(content: "Lorem ipsum", motion: "share_text")
     assert_difference 'Flux.count', -1 do
       @user.destroy
     end

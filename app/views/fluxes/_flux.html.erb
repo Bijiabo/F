@@ -12,11 +12,16 @@
     <p>
       <%= flux.content %>
     </p>
+
     <p>
-      <%= link_to 'Show', flux %> |
-      <%= link_to 'Edit', edit_flux_path(flux) %> |
-      <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Show', flux, class:'btn btn-default btn-xs' %>
+
+      <% if logged_in? and current_user?(flux.user) %>
+      <%= link_to 'Edit', edit_flux_path(flux), class:'btn btn-default btn-xs' %>
+      <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-default btn-xs' %>
+      <% end %>
     </p>
+
   </div>
 </div>
 

@@ -25,6 +25,12 @@ class ActiveSupport::TestCase
     end
   end
 
+  def log_out
+    session.delete(:user_id)
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
+  end
+
   private
 
     # 在集成测试中返回 true

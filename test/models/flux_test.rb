@@ -16,6 +16,19 @@ class FluxTest < ActiveSupport::TestCase
     assert_not @flux.valid?
   end
 
+  test "motion should be present" do
+    @flux.motion = nil
+    assert_not @flux.valid?
+  end
+
+  test "motion length should be at most 250" do
+    @flux.motion = "xxxxxx"
+    assert @flux.valid?
+
+    @flux.motion = "x"*251
+    assert_not @flux.valid?
+  end
+
   test "content should be present" do
     @flux.content = "    "
     assert_not @flux.valid?
