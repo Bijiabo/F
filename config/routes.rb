@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   # users
   resources :users
   get 'signup' => 'users#new'
+  get 'tokens' => 'users#tokens'
+  get 'create_token' => 'users#create_token'
   # root page
   root 'static_pages#home'
   # account active

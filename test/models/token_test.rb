@@ -3,8 +3,8 @@ require 'test_helper'
 class TokenTest < ActiveSupport::TestCase
 
   def setup
-    @user = users(:bijiabobo)
-    @token = @user.tokens.build(token:"xsfsdkrvjker", name: "iPhone 6")
+    @token = tokens(:bijiabobo)
+    @token.save
   end
 
   # test token
@@ -24,13 +24,10 @@ class TokenTest < ActiveSupport::TestCase
     assert_not @token.valid?
   end
 
-  test "token should only has letter number and underline" do
-    @token.token = "喵"*10
-    assert_not @token.valid?
-    @token.token = "?sfEd_sad3_sWaf3="
-    assert_not @token.valid?
-    @token.token = "sfEd_sad3_sWaf3"
-    assert @token.valid?
+  test "should return correct user for token" do
+    user = Token.authenticate(@token.token)
+    assert_not user == nil
+    assert_equal user.id, @token.user.id
   end
 
   # test name
