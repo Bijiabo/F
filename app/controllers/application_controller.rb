@@ -13,7 +13,13 @@ class ApplicationController < ActionController::Base
         store_location
 
         flash[:danger] = "Please log in."
-        redirect_to login_url
+
+        if request.format == :html
+          redirect_to login_url
+        else
+          render json: {error: true, description: "Wrong token."}
+        end
+
       end
     end
 end
