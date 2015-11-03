@@ -12,14 +12,15 @@ class ApplicationController < ActionController::Base
       unless logged_in?
         store_location
 
-        flash[:danger] = "Please log in."
+        error_massage = "Please log in."
+        flash[:danger] = error_massage
 
         if request.format == :html
           redirect_to login_url
         else
-          render json: {error: true, description: "Wrong token."}
+          render json: {error: true, description: error_massage}
         end
-
       end
     end
+
 end

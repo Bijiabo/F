@@ -1,10 +1,7 @@
-<div class="row">
-  <div class="col-md-6">
-    <%= token.name %>
-  </div>
-  <div class="col-md-6">
-    <%= token.token %>
-  </div>
-
-  <br><br>
-</div>
+<tr>
+  <td><%= token.name %></td>
+  <td><%= token.token %></td>
+  <td>
+    <%= link_to "Destroy", token, method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default btn-sm" %>
+  </td>
+</tr>

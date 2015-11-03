@@ -37,7 +37,7 @@ class TokenAuthorizationTestTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
 
     # application client request
-    get users_url, token: @fakeToken, :format => :json
+    get users_url, token: @fakeToken, :format => [:json]
     resultJSON = ActiveSupport::JSON.decode @response.body
     assert_equal resultJSON["error"], true
   end
