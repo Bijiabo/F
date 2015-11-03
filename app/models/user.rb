@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   before_create :create_activation_digest
 
   has_many :fluxes, dependent: :destroy
+  has_many :tokens, dependent: :destroy
 
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/

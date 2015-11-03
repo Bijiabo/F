@@ -39,3 +39,6 @@ spring/
 
 # Ignore application configuration
 /config/application.yml
+
+# Ignore RubyMine files
+.idea

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030153540) do
+ActiveRecord::Schema.define(version: 20151101161129) do
 
   create_table "fluxes", force: :cascade do |t|
     t.string   "motion"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 20151030153540) do
 
   add_index "fluxes", ["user_id", "created_at"], name: "index_fluxes_on_user_id_and_created_at"
   add_index "fluxes", ["user_id"], name: "index_fluxes_on_user_id"
+
+  create_table "tokens", force: :cascade do |t|
+    t.string   "token"
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tokens", ["token"], name: "index_tokens_on_token"
+  add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

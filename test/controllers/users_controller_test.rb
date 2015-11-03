@@ -69,4 +69,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_not @other_user.admin?
   end
 
+  test "user show page should not display when is not owner user" do
+    log_out
+    get :show, id: @user
+    assert_select "a[href=?]", edit_user_path, count: 0
+
+    log_in_as @other_user
+    get :show, id: @user
+    assert_select "a[href=?]", edit_user_path, count: 0
+
+    log_in_as @user
+    get :show, id: @user
+    assert_select "a[href=?]", edit_user_path
+  end
+
 end

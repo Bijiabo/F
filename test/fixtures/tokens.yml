@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+bijiabobo:
+  token: <%= Token.new_token %>
+  name: iPhone 6
+  user: bijiabobo
+
+admin:
+  token: <%= Token.new_token %>
+  name: iPad Air
+  user: admin
