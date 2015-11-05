@@ -31,7 +31,14 @@ class TokensController < ApplicationController
       token_name = params[:deviceName]
       token_device_id = params[:deviceID]
       new_token = Token.new_token
-      token = user.tokens.build(name: token_name, deviceID: token_device_id, token: new_token)
+
+      token = Token.find_by(deviceID: token_device_id, user_id: user.id)
+
+      if token
+        token.token = new_token
+      else
+        token = user.tokens.build(name: token_name, deviceID: token_device_id, token: new_token)
+      end
 
       if token.save
         response = {email: user.email, token: token}

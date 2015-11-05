@@ -5,7 +5,7 @@ class Token < ActiveRecord::Base
   # device' name, default provide by applicaiton client, it could change by user.
   validates :name, presence: true
   # device's id string, provide by application client.
-  validates :deviceID, presence: true, length: {maximum: 250, minimum: 4}
+  validates :deviceID, presence: true, length: {maximum: 250, minimum: 4}, uniqueness: {case_sensitive: false}
 
   class << self
     def new_token
