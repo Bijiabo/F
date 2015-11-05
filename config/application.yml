@@ -12,6 +12,7 @@
 
 # 系统信息
 System_version: 0.0.2
+Secret_key: Change # must same as application client value
 
 # 基础设置
 Base_title: Bijiabo.com
