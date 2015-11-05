@@ -14,7 +14,7 @@ module SessionsHelper
       end
     elsif params[:token] != nil
       token = params[:token]
-      user = Token.authenticate token
+      user = Token.authenticate(token).user
       if user != nil
         @current_user = user
       end

@@ -24,19 +24,34 @@ class TokensController < ApplicationController
 
   def request_new_token
     user = User.find_by(email: params[:email].downcase)
+
+    response = {error: true, description: "Wrong email or password."}
+
     if user && user.authenticate(params[:password])
-      token_name = params[:name] || Time.new
+      token_name = params[:deviceName]
+      token_device_id = params[:deviceID]
       new_token = Token.new_token
-      token = user.tokens.build(name: token_name, token: new_token)
+
+      token = Token.find_by(deviceID: token_device_id, user_id: user.id)
+
+      if token
+        token.token = new_token
+      else
+        token = user.tokens.build(name: token_name, deviceID: token_device_id, token: new_token)
+      end
 
       if token.save
-        render json: {email: user.email, token: token}
+        response = {email: user.email, token: token}
+      elsif !token.valid?
+        response[:description] =  "Incomplete information."
+        response[:name] = token_name
+        response[:deviceID] = token_device_id
       else
-        render json: {error: true, description: "Token create error, please try again."}
+        response[:description] = "Token create error, please try again."
       end
-    else
-      render json: {error: true, description: "Wrong email or password."}
     end
+
+    render json: response
   end
 
 end

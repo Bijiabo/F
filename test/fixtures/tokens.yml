@@ -4,8 +4,10 @@ bijiabobo:
   token: <%= Token.new_token %>
   name: iPhone 6
   user: bijiabobo
+  deviceID: "zaq-xsw-cde-cde"
 
 admin:
   token: <%= Token.new_token %>
   name: iPad Air
   user: admin
+  deviceID: "qaz-wsx-edc-rfv"

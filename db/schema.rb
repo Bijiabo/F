@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151101161129) do
+ActiveRecord::Schema.define(version: 20151104162357) do
 
   create_table "fluxes", force: :cascade do |t|
     t.string   "motion"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20151101161129) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "deviceID"
   end
 
   add_index "tokens", ["token"], name: "index_tokens_on_token"
