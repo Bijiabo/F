@@ -13,13 +13,19 @@ Rails.application.routes.draw do
   resources :static_pages
   get 'about' => 'static_pages#about'
   get 'help'  => 'static_pages#help'
+
   # fluxes
   resources :fluxes
+
   # users
   resources :users
   get 'signup' => 'users#new'
+  # for application client register
+  post 'register_new_user' => 'users#register_new_user'
+
   # root page
   root 'static_pages#home'
+
   # account active
   resources :account_activations, only: [:edit]
   # password resets

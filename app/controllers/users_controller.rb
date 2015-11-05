@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
+  skip_before_action :verify_authenticity_token, only: :register_new_user
 
   # GET /users
   # GET /users.json
@@ -39,6 +40,35 @@ class UsersController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  # POST /register_new_user
+  # For application client
+  def register_new_user
+    response = {error: true, description: "Validate false."}
+    email = params[:email]
+
+    if email == nil
+      render json: response
+      return
+    end
+
+    stringForEncodeEmail = email + ENV["Secret_key"]
+    sha1_email = Digest::SHA1.hexdigest(stringForEncodeEmail)
+    verificationString = params[:verification]
+
+    if sha1_email == verificationString
+      register_params = {email: params[:email], name: params[:name], password: params[:password], password_confirmation: params[:password]}
+      @user = User.new(register_params)
+      if @user.save
+        @user.send_activation_email
+        response = {success: true, description: "Please check your email to activate your account."}
+      else
+        response[:description] = "Register faild. Please try again."
+      end
+    end
+
+    render json: response
   end
 
   # PATCH/PUT /users/1
