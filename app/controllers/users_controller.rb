@@ -15,7 +15,9 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-    redirect_to root_url and return unless @user.activated?
+    @fluxes = @user.fluxes.paginate(page: params[:page])
+    @flux = @user.fluxes.build if current_user?(@user)
+        redirect_to root_url and return unless @user.activated?
   end
 
   # GET /users/new

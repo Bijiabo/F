@@ -17,6 +17,11 @@ class FluxesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:fluxes)
   end
 
+  test "should display create form when logged in" do
+    get :index
+    assert_select "form.new_flux"
+  end
+
   # test get new
 
   test "should get new" do

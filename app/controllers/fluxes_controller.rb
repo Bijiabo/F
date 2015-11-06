@@ -7,6 +7,7 @@ class FluxesController < ApplicationController
   # GET /fluxes.json
   def index
     @fluxes = Flux.paginate(page: params[:page])
+    @flux = current_user.fluxes.build if logged_in?
   end
 
   # GET /fluxes/1

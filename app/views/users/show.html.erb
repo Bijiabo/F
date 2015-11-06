@@ -1,18 +1,44 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <%= gravatar_for @user %>
-</p>
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+<div class="row">
+  <div class="col-md-4">
+    <p>
+      <%= gravatar_for @user %>
+    </p>
+    <p>
+      <strong>Name:</strong>
+      <%= @user.name %>
+    </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
 
-<% if logged_in? && @user == current_user %>
-    <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' %>
-<% end %>
+    <% if logged_in? && current_user?(@user) %>
+        <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' %>
+
+        <hr>
+
+        <section class="micropost_form">
+          <%= render 'shared/flux_form' %>
+        </section>
+    <% end %>
+
+
+
+  </div>
+
+  <div class="col-md-8">
+    <% if @user.fluxes.any? %>
+        <h3>Microposts (<%= @user.fluxes.count %>)</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <%= render @fluxes %>
+          </div>
+        </div>
+
+        <%= will_paginate @fluxes, renderer: BootstrapPagination::Rails %>
+    <% end %>
+  </div>
+</div>
