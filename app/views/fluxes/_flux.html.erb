@@ -11,6 +11,7 @@
     </h4>
     <p>
       <%= flux.content %>
+      <%= image_tag flux.picture.url, class: "img-responsive" if flux.picture? %>
     </p>
 
     <p>

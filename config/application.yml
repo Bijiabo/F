@@ -18,6 +18,10 @@ Secret_key: Change # must same as application client value
 Base_title: Bijiabo.com
 Logo_text: Bijiabo
 
+# 图片尺寸设置
+image_maxium_width: 400
+image_maxium_height: 400
+
 # 邮件服务器设置
 # 邮件服务器地址
 SENDGRID_ADDRESS: smtp.qq.com

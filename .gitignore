@@ -42,3 +42,5 @@ spring/
 
 # Ignore RubyMine files
 .idea
+
+public/uploads

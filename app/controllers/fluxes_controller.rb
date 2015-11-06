@@ -73,7 +73,7 @@ class FluxesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_params
-      params.require(:flux).permit(:motion, :content, :user_id)
+      params.require(:flux).permit(:motion, :content, :user_id, :picture)
     end
 
     def correct_user
