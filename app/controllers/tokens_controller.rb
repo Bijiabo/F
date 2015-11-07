@@ -42,7 +42,7 @@ class TokensController < ApplicationController
       end
 
       if token.save
-        response = {email: user.email, token: token}
+        response = {email: user.email,name: user.name, token: token}
       elsif !token.valid?
         response[:description] =  "Incomplete information."
         response[:name] = token_name

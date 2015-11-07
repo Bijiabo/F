@@ -31,13 +31,14 @@ class TokensControllerTest < ActionController::TestCase
     assert resultJSON["error"] == true
   end
 
-  test "should get new token when use correct email, password, deviceName and deviceId" do
+  test "should get new token when use correct email, password, deviceName and deviceId and should return user name in data" do
     user = User.new name: 'Bijiabo', email: 'bijiabo@gmail.com', password: '123456', password_confirmation: '123456'
     assert user.save
     post :request_new_token, {email: user.email, password: user.password, deviceName: 'iPhone 6', deviceID: 'zaq-xsw-cde-vfr'}
     resultJSON = ActiveSupport::JSON.decode @response.body
-    assert user.email == resultJSON["email"]
-    assert user.id == resultJSON["token"]["user_id"]
+    assert_equal user.email, resultJSON["email"]
+    assert_equal user.id, resultJSON["token"]["user_id"]
+    assert_equal user.name, resultJSON["name"]
   end
 
   test "should not get a new token when did not give deviceName or deviceId" do
