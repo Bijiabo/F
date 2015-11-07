@@ -11,12 +11,16 @@
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
 # 系统信息
-System_version: 0.0.2
+System_version: 0.0.3
 Secret_key: Change # must same as application client value
 
 # 基础设置
 Base_title: Bijiabo.com
 Logo_text: Bijiabo
+
+# 图片尺寸设置
+image_maxium_width: 600
+image_maxium_height: 400
 
 # 邮件服务器设置
 # 邮件服务器地址
@@ -28,6 +32,6 @@ SENDGRID_DOMAIN: qq.com
 # 邮件服务器用户名
 SENDGRID_USERNAME: 550757971@qq.com
 # 邮件服务器密码
-SENDGRID_PASSWORD: changeit!
+SENDGRID_PASSWORD: zaqZAQzaq123
 # 发送邮件的账户地址
 SENDGRID_FORM: test@bijiabo.com

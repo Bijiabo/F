@@ -13,10 +13,10 @@ module SessionsHelper
         @current_user = user
       end
     elsif params[:token] != nil
-      token = params[:token]
-      user = Token.authenticate(token).user
-      if user != nil
-        @current_user = user
+      requestToken = params[:token]
+      token = Token.authenticate(requestToken)
+      if token != nil
+        @current_user = token.user
       end
     end
   end

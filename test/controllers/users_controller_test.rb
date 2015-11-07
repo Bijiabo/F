@@ -77,9 +77,12 @@ class UsersControllerTest < ActionController::TestCase
     log_in_as @other_user
     get :show, id: @user
     assert_select "a[href=?]", edit_user_path, count: 0
+  end
 
+  test "user show page should display edit link when is owner user" do
     log_in_as @user
     get :show, id: @user
+    assert_template 'users/show'
     assert_select "a[href=?]", edit_user_path
   end
 

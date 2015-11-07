@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104162357) do
+ActiveRecord::Schema.define(version: 20151106084343) do
 
   create_table "fluxes", force: :cascade do |t|
     t.string   "motion"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20151104162357) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "picture"
   end
 
   add_index "fluxes", ["user_id", "created_at"], name: "index_fluxes_on_user_id_and_created_at"

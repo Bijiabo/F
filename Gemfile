@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem "mini_magick"
+gem "fog"
+gem "carrierwave"
 gem "figaro"
 # User will_paginate-bootstrap
 gem 'will_paginate-bootstrap'

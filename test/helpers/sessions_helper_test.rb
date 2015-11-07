@@ -4,6 +4,7 @@ class SessionsHelperTest < ActionView::TestCase
 
   def setup
     @user = users(:bijiabobo)
+    @token = tokens(:bijiabobo)
     remember(@user)
   end
 
@@ -16,4 +17,5 @@ class SessionsHelperTest < ActionView::TestCase
     @user.update_attribute(:remember_digest, User.digest(User.new_token))
     assert_nil current_user
   end
+
 end

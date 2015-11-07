@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
-  skip_before_action :verify_authenticity_token, only: :register_new_user
+
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
   # GET /users
   # GET /users.json
@@ -15,7 +16,9 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-    redirect_to root_url and return unless @user.activated?
+    @fluxes = @user.fluxes.paginate(page: params[:page])
+    @flux = @user.fluxes.build if current_user?(@user)
+        redirect_to root_url and return unless @user.activated?
   end
 
   # GET /users/new
@@ -36,39 +39,32 @@ class UsersController < ApplicationController
     if @user.save
       @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
-      redirect_to root_url
-    else
-      render 'new'
-    end
-  end
 
-  # POST /register_new_user
-  # For application client
-  def register_new_user
-    response = {error: true, description: "Validate false."}
-    email = params[:email]
+      respond_to do |format|
+        format.html do
+          redirect_to root_url
+        end
 
-    if email == nil
-      render json: response
-      return
-    end
-
-    stringForEncodeEmail = email + ENV["Secret_key"]
-    sha1_email = Digest::SHA1.hexdigest(stringForEncodeEmail)
-    verificationString = params[:verification]
-
-    if sha1_email == verificationString
-      register_params = {email: params[:email], name: params[:name], password: params[:password], password_confirmation: params[:password]}
-      @user = User.new(register_params)
-      if @user.save
-        @user.send_activation_email
-        response = {success: true, description: "Please check your email to activate your account."}
-      else
-        response[:description] = "Register faild. Please try again."
+        format.json do
+          render json: {success: true, description: "Register success!"}
+        end
       end
-    end
+    else
+      respond_to do |format|
+        format.html do
+          render 'new'
+        end
 
-    render json: response
+        format.json do
+          description = "Register unsccess, please try again."
+          if !@user.valid?
+            description = "Invalid email, name or password."
+          end
+          render json: {error: true, description: description}
+        end
+      end
+
+    end
   end
 
   # PATCH/PUT /users/1
@@ -130,5 +126,13 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to root_url unless current_user.admin?
     end
+
+
+  protected
+
+  def json_request?
+    request.format.json?
+  end
+
 
 end
