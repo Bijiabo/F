@@ -1,6 +1,7 @@
 class TokensController < ApplicationController
   before_action :logged_in_user, only: [:index, :destroy]
-  skip_before_action :verify_authenticity_token, only: :request_new_token
+
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
   def index
     @user = current_user
@@ -52,6 +53,12 @@ class TokensController < ApplicationController
     end
 
     render json: response
+  end
+
+  protected
+
+  def json_request?
+    request.format.json?
   end
 
 end
