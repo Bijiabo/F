@@ -1,5 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+bijiabobo:
+  motion: share_text
+  content: Miao~
+  created_at: <%= 10.minutes.ago %>
+  user: bijiabobo
+
 one:
   motion: share_text
   content: MyText

@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
   def create_token
     @user = current_user
-    @token = @user.tokens.build(name: Time.zone.now, token: Token.new_token)
+    @token = @user.tokens.build(name: Time.zone.now, token: Token.new_token, deviceID: "zaq-xsw-cde-cde")
     if @token.save
       flash[:success] = "Create token successful!"
     else

@@ -86,35 +86,4 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "a[href=?]", edit_user_path
   end
 
-  # for application client register api
-  test "should not create a new user for application client api when lack verificationString" do
-    post :register_new_user, {email: 'bijiabo@gmail.com', name: 'bijiabo', password: 'password'}
-    resultJSON = ActiveSupport::JSON.decode @response.body
-    assert_equal resultJSON["error"], true
-  end
-
-  test "should create a new user for application client api when send correct data" do
-    email = "bijiabo@gmail.com"
-    verificationString = Digest::SHA1.hexdigest( email + ENV["Secret_key"] )
-    post :register_new_user, {email: email, name: 'bijiabo', password: 'password', password_confirmation: 'password', verification: verificationString}
-    resultJSON = ActiveSupport::JSON.decode @response.body
-    assert_equal resultJSON["success"], true
-  end
-
-  test "should not create a new user for application client api when send incorrect data" do
-    email = "bijiabo@gmail.com"
-    verificationString = Digest::SHA1.hexdigest( email + ENV["Secret_key"] )
-    post :register_new_user, {emailx: email, name: 'bijiabo', password: 'password', password_confirmation: 'password', verification: verificationString}
-    resultJSON = ActiveSupport::JSON.decode @response.body
-    assert_equal resultJSON["error"], true
-  end
-
-  test "should not create a new user for application client api when send incorrect verificationString" do
-    email = "bijiabo@gmail.com"
-    verificationString = "hello,world."
-    post :register_new_user, {emailx: email, name: 'bijiabo', password: 'password', password_confirmation: 'password', verification: verificationString}
-    resultJSON = ActiveSupport::JSON.decode @response.body
-    assert_equal resultJSON["error"], true
-  end
-
 end
