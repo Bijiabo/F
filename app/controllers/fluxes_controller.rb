@@ -3,11 +3,23 @@ class FluxesController < ApplicationController
   before_action :logged_in_user, only: [:new, :create, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
+  skip_before_action :verify_authenticity_token, if: :json_request?
+
   # GET /fluxes
   # GET /fluxes.json
   def index
     @fluxes = Flux.paginate(page: params[:page])
     @flux = current_user.fluxes.build if logged_in?
+
+    respond_to do |format|
+      format.html do
+        render 'index'
+      end
+
+      format.json do
+        render json: @fluxes
+      end
+    end
   end
 
   # GET /fluxes/1
@@ -35,9 +47,25 @@ class FluxesController < ApplicationController
 
     if @flux.save
       flash[:success] = "Create flux successfully!"
-      redirect_to fluxes_url
+      respond_to do |format|
+        format.html do
+          redirect_to fluxes_url
+        end
+
+        format.json do
+          render json: {success: true}
+        end
+      end
     else
-      render 'new'
+      respond_to do |format|
+        format.html do
+          render 'new'
+        end
+
+        format.json do
+          render json: {error: true}
+        end
+      end
     end
   end
 
@@ -80,4 +108,11 @@ class FluxesController < ApplicationController
       @flux = Flux.find(params[:id])
       redirect_to fluxes_url if @flux.user_id != current_user.id
     end
+
+  protected
+
+  def json_request?
+    request.format.json?
+  end
+
 end

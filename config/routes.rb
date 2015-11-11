@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   # tokens
   resources :tokens, only: [:index, :destroy]
   post 'request_new_token' => 'tokens#request_new_token'
+  get 'check_token' => 'tokens#check_token'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
