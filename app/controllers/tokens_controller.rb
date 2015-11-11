@@ -55,6 +55,24 @@ class TokensController < ApplicationController
     render json: response
   end
 
+  def check_token
+    respond_to do |format|
+      format.html do
+        render json: {error: true, description: "only for application clients."}
+      end
+
+      format.json do
+        if current_user
+          @user = current_user
+          render json: {success: true, user: {id: @user.id, name: @user.name, email: @user.email}, description: "Token check success."}
+        else
+          render json: {error: false, description: "error token."}
+        end
+
+      end
+    end
+  end
+
   protected
 
   def json_request?
