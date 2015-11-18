@@ -86,4 +86,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "a[href=?]", edit_user_path
   end
 
+  test "should redirect following when not logged in" do
+    get :following, id: @user
+    assert_redirected_to login_url
+    # TODO: json response for application client
+  end
+
+  test "should redirect followers when not logged in" do
+    get :followers, id: @user
+    assert_redirected_to login_url
+    # TODO: json response for application client
+  end
+
 end

@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   resources :fluxes
 
   # users
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   get 'signup' => 'users#new'
   # for application client register
   post 'register_new_user' => 'users#register_new_user'
@@ -36,7 +40,10 @@ Rails.application.routes.draw do
   post 'request_new_token' => 'tokens#request_new_token'
   get 'check_token' => 'tokens#check_token'
 
-  # The priority is based upon order of creation: first created -> highest priority.
+  #relationships
+  resources :relationships, only: [:create, :destroy]
+
+      # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"

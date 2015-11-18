@@ -15,23 +15,27 @@
       <%= @user.email %>
     </p>
 
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+
     <% if logged_in? && current_user?(@user) %>
         <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' %>
 
         <hr>
 
-        <section class="micropost_form">
+        <section class="fluxes_form">
           <%= render 'shared/flux_form' %>
         </section>
     <% end %>
 
-
-
   </div>
 
   <div class="col-md-8">
+    <%= render 'follow_form' if logged_in? %>
+
     <% if @user.fluxes.any? %>
-        <h3>Microposts (<%= @user.fluxes.count %>)</h3>
+        <h3>Fluxes (<%= @user.fluxes.count %>)</h3>
         <div class="row">
           <div class="col-md-12">
             <%= render @fluxes %>
