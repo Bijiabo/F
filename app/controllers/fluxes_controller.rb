@@ -72,25 +72,58 @@ class FluxesController < ApplicationController
   # PATCH/PUT /fluxes/1
   # PATCH/PUT /fluxes/1.json
   def update
+    success = false
+    description = ""
     if @flux.update(flux_params)
-      flash[:success] = "Update flux successfully!"
-      redirect_to @flux
+      success = true
+      description = "Update flux successfully!"
     else
-      flash[:error] = "Update flux unsuccessfully :("
-      redirect_to fluxes_url
+      success =false
+      description = "Update flux unsuccessfully :("
+    end
+
+    respond_to do |format|
+      format.html do
+        if success
+          flash[:success] = description
+          redirect_to @flux
+        else
+          flash[:error] = description
+          redirect_to fluxes_url
+        end
+      end
+
+      format.json { render json: {success: success, error: !success, description: description} }
     end
   end
 
   # DELETE /fluxes/1
   # DELETE /fluxes/1.json
   def destroy
+    success = false
+    description = ""
+
     if @flux.destroy
-      flash[:success] = "Destroy flux successfully!"
+      success = true
+      description = "Destroy flux successfully!"
     else
-      flash[:error] = "Destroy flux unsuccessfully :("
+      success = false
+      description = "Destroy flux unsuccessfully :("
     end
 
-    redirect_to fluxes_url
+    respond_to do |format|
+      format.html do
+        if success
+          flash[:success] = description
+        else
+          flash[:error] = description
+        end
+        redirect_to fluxes_url
+      end
+      format.json do
+        render json: {success: success, description: description}
+      end
+    end
   end
 
   private
@@ -106,7 +139,17 @@ class FluxesController < ApplicationController
 
     def correct_user
       @flux = Flux.find(params[:id])
-      redirect_to fluxes_url if @flux.user_id != current_user.id
+      if @flux.user_id != current_user.id
+        respond_to do |format|
+          format.html do
+            redirect_to fluxes_url
+          end
+
+          format.json do
+            render json: {error: true, description: "not the correct user."}
+          end
+        end
+      end
     end
 
   protected

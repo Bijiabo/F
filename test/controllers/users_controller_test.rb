@@ -104,18 +104,30 @@ class UsersControllerTest < ActionController::TestCase
     assert resultJSON["error"]
   end
 
+  test "should return user data for json request with correct token" do
+    get :index, token: tokens(:admin).token, format: :json
+    reslutJSON = ActiveSupport::JSON.decode @response.body
+    assert reslutJSON.length > 0
+  end
+
   # relationship actions
 
   test "should redirect following when not logged in" do
     get :following, id: @user
     assert_redirected_to login_url
-    # TODO: json response for application client
+
+    get :following, id: @user, format: :json
+    resultJSON = ActiveSupport::JSON.decode @response.body
+    assert resultJSON["error"]
   end
 
   test "should redirect followers when not logged in" do
     get :followers, id: @user
     assert_redirected_to login_url
-    # TODO: json response for application client
+
+    get :followers, id: @user, format: :json
+    resultJSON = ActiveSupport::JSON.decode @response.body
+    assert resultJSON["error"]
   end
 
 end
