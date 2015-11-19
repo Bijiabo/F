@@ -15,10 +15,30 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
-    @fluxes = @user.fluxes.paginate(page: params[:page])
-    @flux = @user.fluxes.build if current_user?(@user)
-        redirect_to root_url and return unless @user.activated?
+    if @user.nil?
+      error_description = "no such user."
+      respond_to do |format|
+        format.html do
+          flash[:error] = error_description
+          redirect_to error_url
+        end
+        format.json do
+          render json: {error: true, description: error_description}
+        end
+      end
+    else
+      @fluxes = @user.fluxes.paginate(page: params[:page])
+      @flux = @user.fluxes.build if current_user?(@user)
+      respond_to do |format|
+        format.html do
+          redirect_to root_url and return unless @user.activated?
+        end
+        format.json do
+          render json: {success: true, user: @user.as_json(only: [:id, :name, :email]), fluxes: @fluxes}
+        end
+      end
+
+    end
   end
 
   # GET /users/new
@@ -125,7 +145,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

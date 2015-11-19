@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 .gravatar {
   float: left;
   margin-right: 10px;
@@ -43,4 +45,8 @@
 
 .users.follow {
   padding: 0;
+}
+
+.alert-error {
+  @extend .alert-danger
 }
