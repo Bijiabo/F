@@ -26,6 +26,16 @@ class FluxesController < ApplicationController
   # GET /fluxes/1.json
   def show
     @flux = Flux.find(params[:id])
+
+    respond_to do |format|
+      format.html do
+        render 'show'
+      end
+
+      format.json do
+        render json: @flux
+      end
+    end
   end
 
   # GET /fluxes/new

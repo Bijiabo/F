@@ -117,10 +117,22 @@ class FluxesControllerTest < ActionController::TestCase
     patch :update, {
         id: @flux.id,
         token: tokens(:admin).token,
-        flux: {content: @flux.content, motion: @flux.motion, user_id: @flux.user_id}
-    }, format: :json
+        flux: {content: @flux.content, motion: @flux.motion, user_id: @flux.user_id},
+        format: :json
+    }
     resultJSON = JSON.parse @response.body
     assert resultJSON["error"]
+  end
+
+  test "should update flux as correct user for json request" do
+    patch :update, {
+        id: @flux.id,
+        token: tokens(:admin).token,
+        flux: {content: "@flux.content", motion: @flux.motion, user_id: @flux.user_id},
+        format: :json
+    }
+    resultJSON = JSON.parse @response.body
+    assert resultJSON["success"]
   end
 
   # test destroy
