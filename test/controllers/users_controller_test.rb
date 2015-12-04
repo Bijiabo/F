@@ -152,4 +152,13 @@ class UsersControllerTest < ActionController::TestCase
     assert resultJSON["error"]
   end
 
+  # get user profile data test
+
+  test "should get user's profile" do
+    get :userProfile, id: @user.id, format: :json
+    result = JSON.parse @response.body
+    assert result["success"]
+    assert_equal result["user"]["id"], @user.id
+  end
+
 end

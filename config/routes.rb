@@ -20,13 +20,12 @@ Rails.application.routes.draw do
   # users
   resources :users do
     member do
-      get :following, :followers
+      get :following, :followers, :userProfile
     end
   end
   get 'signup' => 'users#new'
   # for application client register
   post 'register_new_user' => 'users#register_new_user' # TODO: delete this api
-
   # root page
   root 'static_pages#home'
 

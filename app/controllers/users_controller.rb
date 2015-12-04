@@ -156,6 +156,12 @@ class UsersController < ApplicationController
     # TODO: json response
   end
 
+  def userProfile
+    @user = User.find_by(id: params[:id])
+    success = !@user.nil?
+    render json: {success: success, user: @user}, except: [:password_digest, :reset_digest, :reset_sent_at, :activation_digest, :remember_digest]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
