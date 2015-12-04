@@ -73,6 +73,23 @@ class FluxesControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', edit_flux_path, count: 0
   end
 
+  test "should redirect to error page for wrong id page request" do
+    get :show, id: 999999999
+    assert_redirected_to error_url
+  end
+
+  test "should return error message for json request" do
+    get :show, id: 999999999, format: :json
+    result = JSON.parse @response.body
+    assert result["error"]
+  end
+
+  test "should get data for correct json request" do
+    get :show, id: @flux.id, format: :json
+    result = JSON.parse @response.body
+    assert_equal result["id"], @flux.id
+  end
+
   # test get edit
 
   test "should get edit as correct user" do

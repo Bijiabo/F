@@ -25,15 +25,25 @@ class FluxesController < ApplicationController
   # GET /fluxes/1
   # GET /fluxes/1.json
   def show
-    @flux = Flux.find(params[:id])
-
-    respond_to do |format|
-      format.html do
-        render 'show'
+    if @flux.nil? then
+      error_description = "no such flux."
+      respond_to do |format|
+        format.html do
+          flash[:error] = error_description
+          redirect_to error_url
+        end
+        format.json do
+          render json: {error: true, description: error_description}
+        end
       end
-
-      format.json do
-        render json: @flux
+    else
+      respond_to do |format|
+        format.html do
+          render 'show'
+        end
+        format.json do
+          render json: @flux
+        end
       end
     end
   end
@@ -47,7 +57,6 @@ class FluxesController < ApplicationController
   # GET /fluxes/1/edit
   def edit
     @user = current_user
-    @flux = Flux.find(params[:id])
   end
 
   # POST /fluxes
@@ -139,7 +148,7 @@ class FluxesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_flux
-      @flux = Flux.find(params[:id])
+      @flux = Flux.find_by({id: params[:id]})
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

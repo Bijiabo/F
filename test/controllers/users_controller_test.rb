@@ -24,6 +24,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to login_url
   end
 
+  test "should return error message when not logged in for edit user info json request" do
+    patch :update, id: @user, user: { name: @user.name, email: @user.email}, format: :json
+    result = JSON.parse @response.body
+    assert result["error"]
+  end
+
   test "should redirect edit when logged in as wrong user" do
     log_in_as(@other_user)
     get :edit, id: @user
@@ -34,6 +40,22 @@ class UsersControllerTest < ActionController::TestCase
     log_in_as(@other_user)
     patch :update, id: @user, user: { name: @user.name, email: @user.email }
     assert_redirected_to root_url
+  end
+
+  test "should edit success for json request" do
+    patch :update, {
+        id: @user.id,
+        token: tokens(:bijiabobo).token,
+        user: {
+            name: "xxxafdjsekwfas3",
+            email: @user.email,
+            password: "",
+            password_confirmation: ""
+        },
+        format: :json
+    }
+    result = JSON.parse @response.body
+    assert result["success"]
   end
 
   # login actions

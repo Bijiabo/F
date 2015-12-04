@@ -90,13 +90,27 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user = User.find params[:id]
+    success = false
+    description = "Profile update unsuccess"
     if @user.update_attributes user_params
-      flash[:success] = "Profile update success!"
-      redirect_to @user
-    else
-      render 'edit'
+      success = true
+      description = "Profile update success!"
     end
+
+    respond_to do |format|
+      format.html {
+        if success then
+          flash[:success] = description
+          redirect_to @user
+        else
+          render 'edit'
+        end
+      }
+      format.json {
+        render json: {success: success, description: description}
+      }
+    end
+
   end
 
   # DELETE /users/1
