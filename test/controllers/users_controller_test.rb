@@ -161,4 +161,11 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal result["user"]["id"], @user.id
   end
 
+  test "should not get profile for not exist user" do
+    get :userProfile, id: 999999, format: :json
+    result = JSON.parse @response.body
+    assert_not result["success"]
+    assert_nil result["user"]
+  end
+
 end
