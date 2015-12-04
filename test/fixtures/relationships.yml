@@ -7,3 +7,18 @@
 #two:
 #  follower_id: 2
 #  followed_id: 3
+one:
+  follower: bijiabobo
+  followed: user_1
+
+two:
+  follower: user_1
+  followed: bijiabobo
+
+three:
+  follower: user_2
+  followed: bijiabobo
+
+four:
+  follower: bijiabobo
+  followed: user_2
