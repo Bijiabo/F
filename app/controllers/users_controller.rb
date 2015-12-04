@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers ]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -15,10 +15,30 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
-    @fluxes = @user.fluxes.paginate(page: params[:page])
-    @flux = @user.fluxes.build if current_user?(@user)
-        redirect_to root_url and return unless @user.activated?
+    if @user.nil?
+      error_description = "no such user."
+      respond_to do |format|
+        format.html do
+          flash[:error] = error_description
+          redirect_to error_url
+        end
+        format.json do
+          render json: {error: true, description: error_description}
+        end
+      end
+    else
+      @fluxes = @user.fluxes.paginate(page: params[:page])
+      @flux = @user.fluxes.build if current_user?(@user)
+      respond_to do |format|
+        format.html do
+          redirect_to root_url and return unless @user.activated?
+        end
+        format.json do
+          render json: {success: true, user: @user.as_json(only: [:id, :name, :email]), fluxes: @fluxes}
+        end
+      end
+
+    end
   end
 
   # GET /users/new
@@ -70,13 +90,27 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user = User.find params[:id]
+    success = false
+    description = "Profile update unsuccess"
     if @user.update_attributes user_params
-      flash[:success] = "Profile update success!"
-      redirect_to @user
-    else
-      render 'edit'
+      success = true
+      description = "Profile update success!"
     end
+
+    respond_to do |format|
+      format.html {
+        if success then
+          flash[:success] = description
+          redirect_to @user
+        else
+          render 'edit'
+        end
+      }
+      format.json {
+        render json: {success: success, description: description}
+      }
+    end
+
   end
 
   # DELETE /users/1
@@ -106,10 +140,32 @@ class UsersController < ApplicationController
     redirect_to tokens_url
   end
 
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+    # TODO: json response
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+    # TODO: json response
+  end
+
+  def userProfile
+    @user = User.find_by(id: params[:id])
+    success = !@user.nil?
+    render json: {success: success, user: @user}, except: [:password_digest, :reset_digest, :reset_sent_at, :activation_digest, :remember_digest]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
