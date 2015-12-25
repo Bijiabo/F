@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   # relationships
   resources :relationships, only: [:create, :destroy]
 
+  # cats
+  resources :cats
+
   # error pages
   get 'error' => 'error#show'
 
