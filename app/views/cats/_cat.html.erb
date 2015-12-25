@@ -1,0 +1,29 @@
+<div class="media">
+  <div class="media-left">
+    <a href="#">
+      <%= gravatar_for flux.user, size: 50 %>
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <%= link_to flux.user.name, flux.user %>
+      <%= flux.motion %>:
+    </h4>
+    <p>
+      <%= flux.content %>
+      <%= image_tag flux.picture.url, class: "img-responsive" if flux.picture? %>
+    </p>
+
+    <p>
+      <%= link_to 'Show', flux, class:'btn btn-default btn-xs' %>
+
+      <% if logged_in? and current_user?(flux.user) %>
+      <%= link_to 'Edit', edit_flux_path(flux), class:'btn btn-default btn-xs' %>
+      <%= link_to 'Destroy', flux, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-default btn-xs' %>
+      <% end %>
+    </p>
+
+  </div>
+</div>
+
+<hr>

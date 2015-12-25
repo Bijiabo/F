@@ -1,0 +1,26 @@
+<% provide(:title, "Cats") %>
+
+<div class="row">
+  <div class="col-md-4">
+    <% if logged_in? %>
+        <section>
+          Has been logged in.
+          <%= link_to "Add cat", new_cat_path, class: 'btn btn-success btn-block' %>
+        </section>
+    <% else %>
+        <%= link_to "Log in", login_path, class: 'btn btn-success btn-block' %>
+    <% end %>
+  </div>
+
+  <div class="col-md-8">
+    <h1>Listing Cats</h1>
+
+    <!--<%= link_to 'New Cat', new_flux_path, class: 'btn btn-success' %>-->
+
+    <hr>
+
+    <%= render @cats %>
+
+    <%= will_paginate renderer: BootstrapPagination::Rails %>
+  </div>
+</div>
