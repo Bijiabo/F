@@ -162,6 +162,11 @@ class UsersController < ApplicationController
     render json: {success: success, user: @user}, except: [:password_digest, :reset_digest, :reset_sent_at, :activation_digest, :remember_digest]
   end
 
+  def cats
+    @title = "Cats"
+    render json: current_user.cats
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

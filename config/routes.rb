@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   # users
   resources :users do
     member do
-      get :following, :followers, :userProfile
+      get :following, :followers, :userProfile, :cats
     end
   end
   get 'signup' => 'users#new'
