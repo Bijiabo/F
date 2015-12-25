@@ -68,4 +68,34 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test "should follow and unfollow a user" do
+    bijiabobo = users(:bijiabobo)
+    admin = users(:admin)
+    assert_not bijiabobo.following?(admin)
+    bijiabobo.follow(admin)
+    assert bijiabobo.following?(admin)
+    assert admin.followers.include?(bijiabobo)
+    bijiabobo.unfollow(admin)
+    assert_not bijiabobo.following?(admin)
+  end
+
+  test "feed should have the right posts" do
+    bijiabobo = users(:bijiabobo)
+    user_1  = users(:user_1)
+    xxx    = users(:xxx)
+    # 关注的用户发布的微博
+    bijiabobo.fluxes.each do |post_following|
+      assert user_1.feed.include?(post_following)
+    end
+    # 自己的微博
+    bijiabobo.fluxes.each do |post_self|
+      assert bijiabobo.feed.include?(post_self)
+    end
+    # 未关注用户的微博
+    xxx.fluxes.each do |post_unfollowed|
+      assert_not bijiabobo.feed.include?(post_unfollowed)
+    end
+  end
+
 end

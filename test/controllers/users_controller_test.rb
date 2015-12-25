@@ -7,6 +7,8 @@ class UsersControllerTest < ActionController::TestCase
     @admin = users(:admin)
   end
 
+  # update and edit
+
   test "should get new" do
     get :new
     assert_response :success
@@ -22,6 +24,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to login_url
   end
 
+  test "should return error message when not logged in for edit user info json request" do
+    patch :update, id: @user, user: { name: @user.name, email: @user.email}, format: :json
+    result = JSON.parse @response.body
+    assert result["error"]
+  end
+
   test "should redirect edit when logged in as wrong user" do
     log_in_as(@other_user)
     get :edit, id: @user
@@ -33,6 +41,24 @@ class UsersControllerTest < ActionController::TestCase
     patch :update, id: @user, user: { name: @user.name, email: @user.email }
     assert_redirected_to root_url
   end
+
+  test "should edit success for json request" do
+    patch :update, {
+        id: @user.id,
+        token: tokens(:bijiabobo).token,
+        user: {
+            name: "xxxafdjsekwfas3",
+            email: @user.email,
+            password: "",
+            password_confirmation: ""
+        },
+        format: :json
+    }
+    result = JSON.parse @response.body
+    assert result["success"]
+  end
+
+  # login actions
 
   test "should redirect index page when user did not logged in" do
     get :index
@@ -69,6 +95,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_not @other_user.admin?
   end
 
+  # show page
+
   test "user show page should not display when is not owner user" do
     log_out
     get :show, id: @user
@@ -84,6 +112,60 @@ class UsersControllerTest < ActionController::TestCase
     get :show, id: @user
     assert_template 'users/show'
     assert_select "a[href=?]", edit_user_path
+  end
+
+  test "user show page should display error while the account is not exist" do
+    user = User.new name: 'Bijiabo', email: 'bijiabo@gmail.com', password: '123456', password_confirmation: '123456'
+    user.save
+    user.destroy
+    get :show, id: user
+    assert_redirected_to error_url
+
+    get :show, id: user, :format => :json
+    resultJSON = ActiveSupport::JSON.decode @response.body
+    assert resultJSON["error"]
+  end
+
+  test "should return user data for json request with correct token" do
+    get :index, token: tokens(:admin).token, format: :json
+    reslutJSON = ActiveSupport::JSON.decode @response.body
+    assert reslutJSON.length > 0
+  end
+
+  # relationship actions
+
+  test "should redirect following when not logged in" do
+    get :following, id: @user
+    assert_redirected_to login_url
+
+    get :following, id: @user, format: :json
+    resultJSON = ActiveSupport::JSON.decode @response.body
+    assert resultJSON["error"]
+  end
+
+  test "should redirect followers when not logged in" do
+    get :followers, id: @user
+    assert_redirected_to login_url
+
+    get :followers, id: @user, format: :json
+    resultJSON = ActiveSupport::JSON.decode @response.body
+    assert resultJSON["error"]
+  end
+
+  # get user profile data test
+
+  test "should get user's profile" do
+    get :userProfile, id: @user.id, format: :json
+    result = JSON.parse @response.body
+    assert result["success"]
+    assert_equal result["user"]["id"], @user.id
+  end
+
+  test "should not get profile for not exist user" do
+    get :userProfile, id: 999999, format: :json
+    result = JSON.parse @response.body
+    assert_not result["success"]
+    assert_nil result["user"]
   end
 
 end

@@ -38,6 +38,48 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     # assert is_logged_in?
   end
 
+  test 'create new user success by client' do
+    assert_difference 'User.count', 1 do
+      password = 'password'
+      post users_path,
+           user: {name: 'TestUser',
+                  email: 'test@tttttt.com',
+                  password: password,
+                  password_confirmation: password},
+           format: :json
+      resultJSON = ActiveSupport::JSON.decode @response.body
+      assert resultJSON["success"]
+    end
+  end
+
+  test 'create new user success by client unsuccess' do
+    assert_no_difference 'User.count' do
+      password = 'password'
+      post users_path,
+           user: {name: 'TestUser',
+                  email: 'test@tttttt.com',
+                  password: password,
+                  password_confirmation: password+"xxx"},
+           format: :json
+      resultJSON = ActiveSupport::JSON.decode @response.body
+      assert resultJSON["error"]
+    end
+  end
+
+  test 'create new user success by client unsuccess 2' do
+    assert_no_difference 'User.count' do
+      password = 'password'
+      post users_path,
+           user: {name: 'TestUser',
+                  email: 'test',
+                  password: password,
+                  password_confirmation: password},
+           format: :json
+      resultJSON = ActiveSupport::JSON.decode @response.body
+      assert resultJSON["error"]
+    end
+  end
+
   test "valid signup information with account activation" do
     get signup_path
 
