@@ -63,4 +63,67 @@ class CatsControllerTest < ActionController::TestCase
     assert result["success"]
   end
 
+  test "should create success for logged in user" do
+    # json request
+    assert_difference('Cat.count', 1) do
+      post :create, {
+          cat: { name: @cat.name, age: @cat.age, breed: @cat.breed },
+          token: tokens(:bijiabobo).token
+      }, format: :json
+    end
+
+    # html request
+    log_in_as @user
+    assert_difference('Cat.count', 1) do
+      post :create, {
+          cat: { name: @cat.name, age: @cat.age, breed: @cat.breed }
+      }
+    end
+  end
+
+  test "should not destroy for not logged in" do
+    assert_no_difference('Cat.count') do
+      delete :destroy, id: @cat
+    end
+
+    delete :destroy, id: @cat
+    assert_redirected_to login_url
+
+    delete :destroy, id: @cat, format: :json
+    result = JSON.parse @response.body
+    assert result["error"]
+  end
+
+  test "should not destroy for not owner" do
+    # json request
+    delete :destroy, {id: @cat, token: tokens(:admin).token, format: :json}
+    result = JSON.parse @response.body
+    assert_not result["success"]
+
+    assert_no_difference 'Cat.count' do
+      delete :destroy, {id: @cat, token: tokens(:admin).token, format: :json}
+    end
+
+    # html request
+    log_in_as @other_user
+    delete :destroy, id: @cat
+    assert_redirected_to root_url
+  end
+
+  test "should destroy for owner" do
+    # json request
+    assert_difference 'Cat.count', -1 do
+      delete :destroy, {id: @cat, token: tokens(:bijiabobo).token, format: :json}
+    end
+  end
+
+  test "should destroy for owner _html_request" do
+    # html request
+    log_in_as @user
+    assert_difference 'Cat.count', -1 do
+      delete :destroy, id: @cat
+    end
+  end
+
+
 end

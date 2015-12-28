@@ -6,6 +6,12 @@ bijiabobo:
   user: bijiabobo
   deviceID: "zaq-xsw-cde-cde"
 
+xxx:
+  token: <%= Token.new_token %>
+  name: iPad Air
+  user: xxx
+  deviceID: "det-wsx-edc-red"
+
 admin:
   token: <%= Token.new_token %>
   name: iPad Air

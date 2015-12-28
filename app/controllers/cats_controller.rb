@@ -1,7 +1,7 @@
 class CatsController < ApplicationController
 
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :new]
-  before_action :set_cat, only: [:show, :edit, :update, :destroy, :shouldBeOwner]
+  before_action :set_cat, only: [:show, :edit, :update, :destroy]
   before_action :shouldBeOwner, only: [:edit, :update, :destroy]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
@@ -166,19 +166,13 @@ class CatsController < ApplicationController
 
     def shouldBeOwner
       unless isOwnerFor? @cat
-        respond_to do |format|
-
-          format.html do
-            redirect_to root_url
-          end
-
-          format.json do
-            render json: {
-                success: false,
-                description: "You should be owner for the cat."
-            }
-          end
-
+        if request.format == :html
+          redirect_to root_url
+        else
+          render json: {
+              success: false,
+              description: "You should be owner for the cat."
+          }
         end
       end
     end
