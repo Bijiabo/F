@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   # cats
   has_many :cats, dependent: :destroy, inverse_of: :user
 
-      validates :name, presence: true, length: {maximum: 50}
+  validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
   validates :email, presence: true, length: {maximum: 255}, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
 

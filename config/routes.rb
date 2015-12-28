@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   # cats
   resources :cats
+  get 'catsModelKeys' => 'cats#modelKeys'
 
   # error pages
   get 'error' => 'error#show'
