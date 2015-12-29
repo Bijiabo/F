@@ -1,6 +1,6 @@
 class CatsController < ApplicationController
 
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :new]
+  before_action :logged_in_user, only: [:edit, :update, :destroy, :new]
   before_action :set_cat, only: [:show, :edit, :update, :destroy]
   before_action :shouldBeOwner, only: [:edit, :update, :destroy]
 
