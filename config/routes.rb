@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   # users
   resources :users do
     member do
-      get :following, :followers, :userProfile
+      get :following, :followers, :userProfile, :cats
     end
   end
   get 'signup' => 'users#new'
@@ -41,6 +41,15 @@ Rails.application.routes.draw do
 
   # relationships
   resources :relationships, only: [:create, :destroy]
+
+  # cats
+  resources :cats do
+    member do
+      post :setLocation
+    end
+  end
+  get 'catsModelKeys' => 'cats#modelKeys'
+  get 'nearbyCat' => 'cats#nearby'
 
   # error pages
   get 'error' => 'error#show'

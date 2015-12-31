@@ -3,14 +3,19 @@ class User < ActiveRecord::Base
   before_save :downcase_email
   before_create :create_activation_digest
 
+  # fluxes
   has_many :fluxes, dependent: :destroy, inverse_of: :user
+  # tokens
   has_many :tokens, dependent: :destroy, inverse_of: :user
+  # relationships
   has_many :active_relationships, class_name:  "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :passive_relationships, class_name:  "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  # cats
+  has_many :cats, dependent: :destroy, inverse_of: :user
 
-      validates :name, presence: true, length: {maximum: 50}
+  validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
   validates :email, presence: true, length: {maximum: 255}, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
 

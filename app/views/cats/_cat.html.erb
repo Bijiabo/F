@@ -1,0 +1,28 @@
+<div class="media">
+  <div class="media-left">
+    <a href="#">
+
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <%= link_to cat.name, cat.user %>
+      <%= cat.breed %>:
+    </h4>
+    <p>
+      <%= cat.breed %>
+    </p>
+
+    <p>
+      <%= link_to 'Show', cat, class:'btn btn-default btn-xs' %>
+
+      <% if logged_in? and current_user?(cat.user) %>
+      <%= link_to 'Edit', edit_cat_path(cat), class:'btn btn-default btn-xs' %>
+      <%= link_to 'Destroy', cat, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-default btn-xs' %>
+      <% end %>
+    </p>
+
+  </div>
+</div>
+
+<hr>

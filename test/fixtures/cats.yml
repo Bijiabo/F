@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Speedy
+  age: 1
+  breed: Nulla luctus felis
+  user: bijiabobo
+
+
+two:
+  name: HuaHua
+  age: 2
+  breed: Garfield
+  user: bijiabobo
+
