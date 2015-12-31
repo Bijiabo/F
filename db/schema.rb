@@ -11,15 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151225175512) do
+ActiveRecord::Schema.define(version: 20151230075617) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
     t.integer  "age"
     t.string   "breed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.integer  "user_id"
+    t.decimal  "latitude",   precision: 15, scale: 13
+    t.decimal  "longitude",  precision: 15, scale: 13
   end
 
   add_index "cats", ["user_id"], name: "index_cats_on_user_id"

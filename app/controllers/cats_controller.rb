@@ -1,8 +1,8 @@
 class CatsController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update, :destroy, :new]
-  before_action :set_cat, only: [:show, :edit, :update, :destroy]
-  before_action :shouldBeOwner, only: [:edit, :update, :destroy]
+  before_action :logged_in_user, only: [:edit, :update, :destroy, :new, :setLocation]
+  before_action :set_cat, only: [:show, :edit, :update, :destroy, :setLocation]
+  before_action :shouldBeOwner, only: [:edit, :update, :destroy, :setLocation]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
 
@@ -148,6 +148,24 @@ class CatsController < ApplicationController
             }
         ]
     }
+  end
+
+  def setLocation
+    locationData = params.require(:cat).permit(:latitude, :longitude)
+    @cat.latitude = locationData["latitude"].to_f
+    @cat.longitude = locationData["longitude"].to_f
+    success = @cat.save
+    render json: {
+        success: success,
+        locationData: locationData
+    }
+  end
+
+  def nearby
+    requestLocation = params.permit(:latitude, :longitude)
+    location = [requestLocation["latitude"], requestLocation["longitude"]]
+    cats = Cat.within(5, :origin => location)
+    render json: cats
   end
 
   private

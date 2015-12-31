@@ -43,8 +43,13 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
 
   # cats
-  resources :cats
+  resources :cats do
+    member do
+      post :setLocation
+    end
+  end
   get 'catsModelKeys' => 'cats#modelKeys'
+  get 'nearbyCat' => 'cats#nearby'
 
   # error pages
   get 'error' => 'error#show'
