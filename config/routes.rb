@@ -51,6 +51,10 @@ Rails.application.routes.draw do
   get 'catsModelKeys' => 'cats#modelKeys'
   get 'nearbyCat' => 'cats#nearby'
 
+  # reader
+  resource :readers
+  get 'readFormatHelper' => 'readers#formatHelper'
+
   # error pages
   get 'error' => 'error#show'
 
