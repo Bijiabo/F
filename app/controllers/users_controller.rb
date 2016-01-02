@@ -57,8 +57,12 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
+      if json_request?
+        @user.activate
+      else
+        @user.send_activation_email
+        flash[:info] = "Please check your email to activate your account."
+      end
 
       respond_to do |format|
         format.html do
