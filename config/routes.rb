@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :flux_comments
   get 'password_resets/new'
   get 'password_resets/edit'
 
@@ -15,7 +16,13 @@ Rails.application.routes.draw do
   get 'help'  => 'static_pages#help'
 
   # fluxes
-  resources :fluxes
+  resources :fluxes do
+    member do
+      get :comments
+    end
+  end
+  # fluxes comments
+  resource :flux_comments
 
   # users
   resources :users do

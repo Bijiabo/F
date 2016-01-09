@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   # fluxes
   has_many :fluxes, dependent: :destroy, inverse_of: :user
+  has_many :flux_comments, dependent: :destroy, inverse_of: :user
   # tokens
   has_many :tokens, dependent: :destroy, inverse_of: :user
   # relationships

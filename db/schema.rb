@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230075617) do
+ActiveRecord::Schema.define(version: 20160109175708) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -26,17 +26,40 @@ ActiveRecord::Schema.define(version: 20151230075617) do
 
   add_index "cats", ["user_id"], name: "index_cats_on_user_id"
 
+  create_table "flux_comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "flux_comments_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "childComment_id"
+    t.integer  "parentComment_id"
+    t.integer  "flux_id"
+  end
+
+  add_index "flux_comments", ["flux_comments_id"], name: "index_flux_comments_on_flux_comments_id"
+  add_index "flux_comments", ["flux_id"], name: "index_flux_comments_on_flux_id"
+  add_index "flux_comments", ["user_id", "flux_comments_id"], name: "index_flux_comments_on_user_id_and_flux_comments_id"
+  add_index "flux_comments", ["user_id"], name: "index_flux_comments_on_user_id"
+
   create_table "fluxes", force: :cascade do |t|
     t.string   "motion"
     t.text     "content"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "picture"
+    t.integer  "like_count",    default: 0
+    t.integer  "comment_count", default: 0
   end
 
   add_index "fluxes", ["user_id", "created_at"], name: "index_fluxes_on_user_id_and_created_at"
   add_index "fluxes", ["user_id"], name: "index_fluxes_on_user_id"
+
+  create_table "readers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id"

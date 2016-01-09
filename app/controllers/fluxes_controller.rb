@@ -159,6 +159,23 @@ class FluxesController < ApplicationController
     end
   end
 
+  def comments
+    comments = FluxComment.includes(:user).where({flux_id: params[:id]})
+    comments_data = []
+
+    comments.each do |comment|
+      data_item = {comment: comment}
+      commentUser = comment.user
+      data_item["user"] = {
+          id: commentUser.id,
+          name: commentUser.name
+      }
+      comments_data.push data_item
+    end
+
+    render json: comments_data
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_flux
