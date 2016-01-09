@@ -11,16 +11,27 @@ class FluxesController < ApplicationController
     page = 1
     page = Integer(params[:page]) > 0 ? params[:page] : 1 if params[:page]
 
-    @fluxes = Flux.paginate(page: page)
-    @flux = current_user.fluxes.build if logged_in?
-
     respond_to do |format|
       format.html do
+        @fluxes = Flux.paginate(page: page)
+        @flux = current_user.fluxes.build if logged_in?
         render 'index'
       end
 
       format.json do
-        render json: @fluxes
+        @fluxes = Flux.paginate(page: page).includes(:user)
+        fluxes_data = []
+
+        @fluxes.each do |flux|
+          data_item = {flux: flux}
+          data_item["user"] = {
+              id: flux.user.id,
+              name: flux.user.name
+          }
+          fluxes_data.push data_item
+        end
+
+        render json: fluxes_data
       end
     end
   end
