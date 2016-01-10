@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :flux_comments
   get 'password_resets/new'
   get 'password_resets/edit'
 
@@ -22,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
   # fluxes comments
-  resource :flux_comments
+  resources :flux_comments
 
   # users
   resources :users do
@@ -57,6 +56,9 @@ Rails.application.routes.draw do
   end
   get 'catsModelKeys' => 'cats#modelKeys'
   get 'nearbyCat' => 'cats#nearby'
+
+  # trends
+  resources :trends, except: [:create, :edit, :update, :new, :show]
 
   # error pages
   get 'error' => 'error#show'

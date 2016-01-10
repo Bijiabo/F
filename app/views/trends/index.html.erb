@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trends</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>To user</th>
+      <th>From user</th>
+      <th>To cat</th>
+      <th>From cat</th>
+      <th>Flux</th>
+      <th>Type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trends.each do |trend| %>
+      <tr>
+        <td><%= trend.content %></td>
+        <td><%= trend.flux.content %></td>
+        <td><%= trend.trends_type %></td>
+        <td><%= link_to 'Show', trend %></td>
+        <td><%= link_to 'Destroy', trend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

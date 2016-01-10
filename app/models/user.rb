@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :followers, through: :passive_relationships, source: :follower
   # cats
   has_many :cats, dependent: :destroy, inverse_of: :user
+  # trends
+  has_many :trends, dependent: :destroy, inverse_of: :user
 
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/

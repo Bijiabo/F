@@ -1,6 +1,10 @@
 class Flux < ActiveRecord::Base
   belongs_to :user
+  # comments
   has_many :flux_comments, dependent: :destroy, inverse_of: :flux
+  # trends
+  has_many :trends, dependent: :destroy, inverse_of: :flux
+
   default_scope -> { order(created_at: :desc) }
 
   validates :user_id, presence: true

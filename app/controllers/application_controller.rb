@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include SessionsHelper
+  include TrendsHelper
 
   private
     # 确保用户已登录

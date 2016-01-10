@@ -8,6 +8,9 @@ class Cat < ActiveRecord::Base
 
   belongs_to :user
 
+  # trends
+  has_many :trends, dependent: :destroy, inverse_of: :cat
+
   validates :name, presence: true, length: {maximum: 50}
   validates :age, presence: true, inclusion: 0..25, numericality: { only_integer: true }
   validates :breed, presence: true, length: {maximum: 50}

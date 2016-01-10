@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @trend.content %>
+</p>
+
+<p>
+  <strong>To user:</strong>
+  <%= @trend.to_user %>
+</p>
+
+<p>
+  <strong>From user:</strong>
+  <%= @trend.from_user %>
+</p>
+
+<p>
+  <strong>To cat:</strong>
+  <%= @trend.to_cat %>
+</p>
+
+<p>
+  <strong>From cat:</strong>
+  <%= @trend.from_cat %>
+</p>
+
+<p>
+  <strong>Flux:</strong>
+  <%= @trend.flux %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @trend.type %>
+</p>
+
+<%= link_to 'Edit', edit_trend_path(@trend) %> |
+<%= link_to 'Back', trends_path %>

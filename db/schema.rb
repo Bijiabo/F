@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160109175708) do
+ActiveRecord::Schema.define(version: 20160110125129) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -83,6 +83,27 @@ ActiveRecord::Schema.define(version: 20160109175708) do
 
   add_index "tokens", ["token"], name: "index_tokens_on_token"
   add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
+
+  create_table "trends", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "to_user_id"
+    t.integer  "from_user_id"
+    t.integer  "to_cat_id"
+    t.integer  "from_cat_id"
+    t.integer  "flux_id"
+    t.string   "trends_type"
+    t.boolean  "read",         default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "trends", ["flux_id"], name: "index_trends_on_flux_id"
+  add_index "trends", ["from_cat_id"], name: "index_trends_on_from_cat_id"
+  add_index "trends", ["from_user_id"], name: "index_trends_on_from_user_id"
+  add_index "trends", ["read"], name: "index_trends_on_read"
+  add_index "trends", ["to_cat_id"], name: "index_trends_on_to_cat_id"
+  add_index "trends", ["to_user_id"], name: "index_trends_on_to_user_id"
+  add_index "trends", ["trends_type"], name: "index_trends_on_trends_type"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

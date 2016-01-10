@@ -66,10 +66,16 @@ class FluxCommentsController < ApplicationController
     respond_to do |format|
       if @flux_comment.save
         @success = true
-        # update flux comment count
-        if flux = Flux.find_by(params[:flux_id])
+
+        if flux = Flux.find_by(id: params[:flux_comment][:flux_id])
+          flux_author = flux.user
+
+          # update flux comment count
           flux.increment :comment_count, 1
           flux.save
+
+          # send trends to user
+          createTrends flux.user_id, TrendsHelper::Type::FLUX_COMMENT_REPLY, flux
         end
 
         format.html { redirect_to @flux_comment, notice: 'Flux comment was successfully created.' }
