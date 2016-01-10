@@ -1,0 +1,29 @@
+<%= form_for(@remote_notification_token) do |f| %>
+  <% if @remote_notification_token.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@remote_notification_token.errors.count, "error") %> prohibited this remote_notification_token from being saved:</h2>
+
+      <ul>
+      <% @remote_notification_token.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :token %><br>
+    <%= f.text_field :token %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :failed_count %><br>
+    <%= f.number_field :failed_count %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

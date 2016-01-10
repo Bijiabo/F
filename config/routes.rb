@@ -60,6 +60,9 @@ Rails.application.routes.draw do
   # trends
   resources :trends, except: [:create, :edit, :update, :new, :show]
 
+  # remote notification tokens
+  resources :remote_notification_tokens, only: [:create, :destroy]
+
   # error pages
   get 'error' => 'error#show'
 
