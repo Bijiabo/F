@@ -87,7 +87,7 @@ class FluxesControllerTest < ActionController::TestCase
   test "should get data for correct json request" do
     get :show, id: @flux.id, format: :json
     result = JSON.parse @response.body
-    assert_equal result["id"], @flux.id
+    assert_equal result["flux"]["id"], @flux.id
   end
 
   # test get edit

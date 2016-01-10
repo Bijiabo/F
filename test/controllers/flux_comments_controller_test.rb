@@ -18,7 +18,7 @@ class FluxCommentsControllerTest < ActionController::TestCase
 
   test "should create flux_comment" do
     assert_difference('FluxComment.count') do
-      post :create, flux_comment: { content: @flux_comment.content, parent_id: @flux_comment.parent_id, user_id: @flux_comment.user_id }
+      post :create, flux_comment: { content: @flux_comment.content, parentComment: @flux_comment.parentComment, user_id: @flux_comment.user_id }
     end
 
     assert_redirected_to flux_comment_path(assigns(:flux_comment))
@@ -35,7 +35,7 @@ class FluxCommentsControllerTest < ActionController::TestCase
   end
 
   test "should update flux_comment" do
-    patch :update, id: @flux_comment, flux_comment: { content: @flux_comment.content, parent_id: @flux_comment.parent_id, user_id: @flux_comment.user_id }
+    patch :update, id: @flux_comment, flux_comment: { content: @flux_comment.content, parentComment: @flux_comment.parentComment, user_id: @flux_comment.user_id }
     assert_redirected_to flux_comment_path(assigns(:flux_comment))
   end
 

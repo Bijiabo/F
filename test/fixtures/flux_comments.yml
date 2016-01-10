@@ -2,10 +2,10 @@
 
 one:
   content: MyText
-  user_id: 
-  parent_id: 
+  user_id: 1
+  parentComment:
 
 two:
   content: MyText
-  user_id: 
-  parent_id: 
+  user_id: 1
+  parentComment:
