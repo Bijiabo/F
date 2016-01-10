@@ -156,20 +156,8 @@ class FluxesController < ApplicationController
   end
 
   def comments
-    comments = FluxComment.includes(:user).where({flux_id: params[:id]})
-    comments_data = []
-
-    comments.each do |comment|
-      data_item = {comment: comment}
-      commentUser = comment.user
-      data_item["user"] = {
-          id: commentUser.id,
-          name: commentUser.name
-      }
-      comments_data.push data_item
-    end
-
-    render json: comments_data
+    @comments = FluxComment.includes(:user).where({flux_id: params[:id]})
+    render :comments
   end
 
   private
