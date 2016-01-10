@@ -1,6 +1,8 @@
 class RemoteNotificationTokensController < ApplicationController
   before_action :set_remote_notification_token, only: [:show, :edit, :update, :destroy]
 
+  skip_before_action :verify_authenticity_token, if: :json_request?
+
   # GET /remote_notification_tokens
   # GET /remote_notification_tokens.json
   def index
@@ -69,6 +71,12 @@ class RemoteNotificationTokensController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def remote_notification_token_params
-      params.require(:remote_notification_token).permit(:token, :user_id, :failed_count)
+      params.require(:remote_notification_token).permit(:token, :user_id)
+    end
+
+  protected
+
+    def json_request?
+      request.format.json?
     end
 end

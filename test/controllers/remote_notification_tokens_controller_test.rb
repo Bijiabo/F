@@ -7,7 +7,13 @@ class RemoteNotificationTokensControllerTest < ActionController::TestCase
 
   test "should create remote_notification_token" do
     assert_difference('RemoteNotificationToken.count', 1) do
-      post :create, remote_notification_token: { failed_count: @remote_notification_token.failed_count, token: @remote_notification_token.token+"2sfd", user_id: @remote_notification_token.user_id }
+      post :create, {
+          remote_notification_token: {
+              failed_count: @remote_notification_token.failed_count,
+              token: @remote_notification_token.token+"2sfd",
+              user_id: @remote_notification_token.user_id
+          }
+      }
     end
 
     assert_redirected_to remote_notification_token_path(assigns(:remote_notification_token))
