@@ -20,18 +20,7 @@ class FluxesController < ApplicationController
 
       format.json do
         @fluxes = Flux.paginate(page: page).includes(:user)
-        fluxes_data = []
-
-        @fluxes.each do |flux|
-          data_item = {flux: flux}
-          data_item["user"] = {
-              id: flux.user.id,
-              name: flux.user.name
-          }
-          fluxes_data.push data_item
-        end
-
-        render json: fluxes_data
+        render :index
       end
     end
   end
