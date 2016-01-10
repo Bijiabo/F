@@ -11,6 +11,8 @@ class FluxesController < ApplicationController
     page = 1
     page = Integer(params[:page]) > 0 ? params[:page] : 1 if params[:page]
 
+    pushNotification()
+
     respond_to do |format|
       format.html do
         @fluxes = Flux.paginate(page: page)

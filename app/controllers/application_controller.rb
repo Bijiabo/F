@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   # Apple APNs
   # TODO: - need to be completed
   def pushNotification
-    certificateFilePath = File.join(Rails.root, "config", "user_config.yml")
+    certificateFilePath = File.join(Rails.root, "config", "certificate.pem")
     return if !File.exist?(certificateFilePath)
 
     passphrase = "Changeit!"
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
         retries:     3                         # optional
     )
     notification = Grocer::Notification.new(
-        device_token:      "fe15a27d5df3c34778defb1f4f3880265cc52c0c047682223be59fb68500a9a2",
+        device_token:      "24185ab393d8a763ab8f9976bacc39feeac342e92858558927a04dcf0f2140a4",
         alert:             "Hello from Grocer!",
         badge:             42,
         category:          "a category",         # optional; used for custom notification actions
