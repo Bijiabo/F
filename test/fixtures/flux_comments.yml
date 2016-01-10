@@ -2,7 +2,8 @@
 
 one:
   content: MyText
-  user_id: 1
+  user: bijiabobo
+  flux: bijiabobo
   parentComment:
 
 two:

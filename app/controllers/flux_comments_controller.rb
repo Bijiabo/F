@@ -1,5 +1,7 @@
 class FluxCommentsController < ApplicationController
   before_action :set_flux_comment, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:new, :create, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
 
@@ -41,14 +43,8 @@ class FluxCommentsController < ApplicationController
     respond_to do |format|
       format.html {render 'show'}
       format.json do
-        user = @flux_comment.user
-        render json: {
-            comment: @flux_comment,
-            user: {
-                id: user.id,
-                name: user.name
-            }
-        }
+        @success = true
+        render :show, location: @flux_comment
       end
     end
   end
@@ -65,11 +61,11 @@ class FluxCommentsController < ApplicationController
   # POST /flux_comments
   # POST /flux_comments.json
   def create
-    p flux_comment_params
     @flux_comment = FluxComment.new(flux_comment_params)
 
     respond_to do |format|
       if @flux_comment.save
+        @success = true
         # update flux comment count
         if flux = Flux.find_by(params[:flux_id])
           flux.increment :comment_count, 1
@@ -77,10 +73,12 @@ class FluxCommentsController < ApplicationController
         end
 
         format.html { redirect_to @flux_comment, notice: 'Flux comment was successfully created.' }
-        format.json { render :show, status: :created, location: @flux_comment }
+        format.json { render :show, location: @flux_comment }
+
       else
+        @success = true
         format.html { render :new }
-        format.json { render json: @flux_comment.errors, status: :unprocessable_entity }
+        format.json { render :show, location: @flux_comment }
       end
     end
   end
@@ -90,9 +88,11 @@ class FluxCommentsController < ApplicationController
   def update
     respond_to do |format|
       if @flux_comment.update(flux_comment_params)
+        @success = true
         format.html { redirect_to @flux_comment, notice: 'Flux comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @flux_comment }
       else
+        @success = false
         format.html { render :edit }
         format.json { render json: @flux_comment.errors, status: :unprocessable_entity }
       end
@@ -126,6 +126,21 @@ class FluxCommentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_comment_params
       params.require(:flux_comment).permit(:content, :user_id, :parentComment_id, :flux_id)
+    end
+
+    def correct_user
+      set_flux_comment
+      if @flux_comment.user_id != current_user.id
+        respond_to do |format|
+          format.html do
+            redirect_to flux
+          end
+
+          format.json do
+            render json: {success: false, description: "not the correct user."}
+          end
+        end
+      end
     end
 
   protected
