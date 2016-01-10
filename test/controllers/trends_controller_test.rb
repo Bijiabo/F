@@ -20,7 +20,7 @@ class TrendsControllerTest < ActionController::TestCase
   test "should create trend" do
     assert_raises(ActionController::UrlGenerationError) do
       assert_difference('Trend.count') do
-        post :create, trend: { content: @trend.content, flux: @trend.flux, from_cat_id: @trend.from_cat_id, from_user_id: @trend.from_user_id, to_cat_id: @trend.to_cat_id, to_user_id: @trend.to_user_id, type: @trend.type }
+        post :create, trend: { content: @trend.content, flux: @trend.flux, from_cat_id: @trend.from_cat_id, from_user_id: @trend.from_user_id, to_cat_id: @trend.to_cat_id, to_user_id: @trend.to_user_id, trends_type: @trend.trends_type }
       end
     end
   end
@@ -39,7 +39,7 @@ class TrendsControllerTest < ActionController::TestCase
 
   test "should update trend" do
     assert_raises(ActionController::UrlGenerationError) do
-      patch :update, id: @trend, trend: { content: @trend.content, flux: @trend.flux, from_cat_id: @trend.from_cat_id, from_user_id: @trend.from_user_id, to_cat_id: @trend.to_cat_id, to_user_id: @trend.to_user_id, type: @trend.type }
+      patch :update, id: @trend, trend: { content: @trend.content, flux: @trend.flux, from_cat_id: @trend.from_cat_id, from_user_id: @trend.from_user_id, to_cat_id: @trend.to_cat_id, to_user_id: @trend.to_user_id, trends_type: @trend.trends_type }
       # assert_redirected_to trend_path(assigns(:trend))
     end
   end

@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
   # cats
   has_many :cats, dependent: :destroy, inverse_of: :user
   # trends
-  has_many :trends, dependent: :destroy, inverse_of: :user
+  has_many :to_trends, class_name:  "Trend", foreign_key: "to_user_id", dependent: :destroy
+  has_many :from_trends, class_name:  "Trend", foreign_key: "from_user_id", dependent: :destroy
   # remote notification tokens
   has_many :remote_notification_tokens, dependent: :destroy, inverse_of: :user
 

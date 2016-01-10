@@ -9,7 +9,8 @@ class Cat < ActiveRecord::Base
   belongs_to :user
 
   # trends
-  has_many :trends, dependent: :destroy, inverse_of: :cat
+  has_many :to_trends, class_name:  "Trend", foreign_key: "to_cat_id", dependent: :destroy
+  has_many :from_trends, class_name:  "Trend", foreign_key: "from_cat_id", dependent: :destroy
 
   validates :name, presence: true, length: {maximum: 50}
   validates :age, presence: true, inclusion: 0..25, numericality: { only_integer: true }

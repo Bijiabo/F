@@ -7,7 +7,7 @@ one:
   to_cat_id: 
   from_cat_id: 
   flux: 
-  type: 
+  trends_type:
 
 two:
   content: MyText
@@ -16,4 +16,4 @@ two:
   to_cat_id: 
   from_cat_id: 
   flux: 
-  type: 
+  trends_type:

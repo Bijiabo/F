@@ -20,7 +20,6 @@
     <% @trends.each do |trend| %>
       <tr>
         <td><%= trend.content %></td>
-        <td><%= trend.flux.content %></td>
         <td><%= trend.trends_type %></td>
         <td><%= link_to 'Show', trend %></td>
         <td><%= link_to 'Destroy', trend, method: :delete, data: { confirm: 'Are you sure?' } %></td>

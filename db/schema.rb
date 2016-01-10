@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110172910) do
+ActiveRecord::Schema.define(version: 20160110174651) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 20160110172910) do
   create_table "remote_notification_tokens", force: :cascade do |t|
     t.string   "token"
     t.integer  "user_id"
-    t.integer  "failed_count"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "failed_count", default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "remote_notification_tokens", ["token"], name: "index_remote_notification_tokens_on_token"

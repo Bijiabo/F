@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  token: MyString
-  user_id: 
-  failed_count: 1
+  token: MyString23wedsfsds
+  user_id:
+  failed_count: 0
 
 two:
   token: MyString
   user_id: 
-  failed_count: 1
+  failed_count: 0
