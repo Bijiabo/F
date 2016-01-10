@@ -1,0 +1,2 @@
+module RemoteNotificationTokensHelper
+end

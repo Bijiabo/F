@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "grocer"
 gem "mini_magick"
 gem "fog"
 gem "carrierwave"

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @remote_notification_token.token %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @remote_notification_token.user %>
+</p>
+
+<p>
+  <strong>Failed count:</strong>
+  <%= @remote_notification_token.failed_count %>
+</p>
+
+<%= link_to 'Edit', edit_remote_notification_token_path(@remote_notification_token) %> |
+<%= link_to 'Back', remote_notification_tokens_path %>

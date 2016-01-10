@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Remote Notification Tokens</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>User</th>
+      <th>Failed count</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @remote_notification_tokens.each do |remote_notification_token| %>
+      <tr>
+        <td><%= remote_notification_token.token %></td>
+        <td><%= remote_notification_token.user %></td>
+        <td><%= remote_notification_token.failed_count %></td>
+        <td><%= link_to 'Show', remote_notification_token %></td>
+        <td><%= link_to 'Edit', edit_remote_notification_token_path(remote_notification_token) %></td>
+        <td><%= link_to 'Destroy', remote_notification_token, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Remote notification token', new_remote_notification_token_path %>

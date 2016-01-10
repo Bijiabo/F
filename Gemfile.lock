@@ -190,6 +190,7 @@ GEM
       rails (>= 3.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    grocer (0.6.1)
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -345,6 +346,7 @@ DEPENDENCIES
   figaro
   fog
   geokit-rails
+  grocer
   guard
   guard-minitest
   jbuilder (~> 2.0)
