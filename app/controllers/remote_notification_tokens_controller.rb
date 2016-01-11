@@ -26,7 +26,15 @@ class RemoteNotificationTokensController < ApplicationController
   # POST /remote_notification_tokens
   # POST /remote_notification_tokens.json
   def create
-    @remote_notification_token = RemoteNotificationToken.new(remote_notification_token_params)
+    @remote_notification_token = RemoteNotificationToken.find_by token: remote_notification_token_params["token"]
+
+    unless @remote_notification_token
+      @remote_notification_token = RemoteNotificationToken.new(remote_notification_token_params)
+    end
+
+    if logged_in?
+      @remote_notification_token.user = current_user
+    end
 
     respond_to do |format|
       if @remote_notification_token.save
@@ -63,6 +71,28 @@ class RemoteNotificationTokensController < ApplicationController
     end
   end
 
+  def break_token
+    @remote_notification_token = RemoteNotificationToken.find_by token: remote_notification_token_params["token"]
+    result = {success: false}
+    unless @remote_notification_token
+      result = {success: false, description: 'Token not exists.'}
+    end
+
+    if logged_in?
+      @remote_notification_token.user = nil
+      if @remote_notification_token.save
+        result = {success: true, description: 'Remove relationship between user and remote_notification_token'}
+      else
+        result = {success: false, description: 'Remove relationship faild.'}
+      end
+    else
+      @remote_notification_token.destroy
+      result = {success: true, description: 'Token has been deleted.'}
+    end
+
+    render json: result
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_remote_notification_token
@@ -71,7 +101,7 @@ class RemoteNotificationTokensController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def remote_notification_token_params
-      params.require(:remote_notification_token).permit(:token, :user_id)
+      params.require(:remote_notification_token).permit(:token)
     end
 
   protected

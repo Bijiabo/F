@@ -61,7 +61,11 @@ Rails.application.routes.draw do
   resources :trends, except: [:create, :edit, :update, :new, :show]
 
   # remote notification tokens
-  resources :remote_notification_tokens, only: [:create, :destroy]
+  resources :remote_notification_tokens, only: [:create, :destroy] do
+    collection do
+      delete 'break_token'
+    end
+  end
 
   # error pages
   get 'error' => 'error#show'
