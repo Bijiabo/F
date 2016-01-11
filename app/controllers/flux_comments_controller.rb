@@ -68,7 +68,6 @@ class FluxCommentsController < ApplicationController
         @success = true
 
         if flux = Flux.find_by(id: params[:flux_comment][:flux_id])
-          flux_author = flux.user
 
           # update flux comment count
           flux.increment :comment_count, 1

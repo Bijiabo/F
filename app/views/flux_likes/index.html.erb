@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Flux Likes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Flux</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @flux_likes.each do |flux_like| %>
+      <tr>
+        <td><%= flux_like.user %></td>
+        <td><%= flux_like.flux %></td>
+        <td><%= link_to 'Show', flux_like %></td>
+        <td><%= link_to 'Edit', edit_flux_like_path(flux_like) %></td>
+        <td><%= link_to 'Destroy', flux_like, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Flux like', new_flux_like_path %>

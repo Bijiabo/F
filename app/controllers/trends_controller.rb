@@ -4,7 +4,7 @@ class TrendsController < ApplicationController
   # GET /trends
   # GET /trends.json
   def index
-    @trends = Trend.where to_user: current_user
+    @trends = Trend.where(to_user: current_user).order(created_at: :desc)
 
     respond_to do |format|
       format.html {render :index}

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @flux_like.user %>
+</p>
+
+<p>
+  <strong>Flux:</strong>
+  <%= @flux_like.flux %>
+</p>
+
+<%= link_to 'Edit', edit_flux_like_path(@flux_like) %> |
+<%= link_to 'Back', flux_likes_path %>

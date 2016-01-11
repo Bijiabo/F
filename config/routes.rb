@@ -22,6 +22,12 @@ Rails.application.routes.draw do
   end
   # fluxes comments
   resources :flux_comments
+  # fluxes likes
+  resources :flux_likes, only: [:create, :destroy] do
+    collection do
+      delete 'cancel_like'
+    end
+  end
 
   # users
   resources :users do

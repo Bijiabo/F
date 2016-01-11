@@ -2,6 +2,8 @@ class Flux < ActiveRecord::Base
   belongs_to :user
   # comments
   has_many :flux_comments, dependent: :destroy, inverse_of: :flux
+  # likes
+  has_many :flux_likes, dependent: :destroy, inverse_of: :flux
   # trends
   has_many :trends, dependent: :destroy, inverse_of: :flux
 
