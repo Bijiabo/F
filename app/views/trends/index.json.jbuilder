@@ -1,5 +1,6 @@
 json.array!(@trends) do |trend|
   json.extract! trend, :id, :content, :to_user_id, :from_user_id, :to_cat_id, :from_cat_id, :flux, :trends_type
+  json.created_at format_date trend.created_at
 
   # from_user's data
   json.from_user do

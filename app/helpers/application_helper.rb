@@ -1,3 +1,5 @@
+require 'stamp'
+
 module ApplicationHelper
 
   def full_title(page_title = '')
@@ -7,6 +9,10 @@ module ApplicationHelper
     else
       page_title + " | " + base_title
     end
+  end
+
+  def format_date(date)
+    date.stamp("March 1 at 01:00 AM")
   end
 
 end

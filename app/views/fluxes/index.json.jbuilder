@@ -1,6 +1,7 @@
 json.array!(@fluxes) do |flux|
   json.flux do
-    json.extract! flux, :id, :motion, :content, :user_id, :created_at, :like_count, :comment_count
+    json.extract! flux, :id, :motion, :content, :user_id, :like_count, :comment_count
+    json.created_at format_date flux.created_at
     json.picture flux.picture
   end
 

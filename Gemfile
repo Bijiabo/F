@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "stamp"
 gem "grocer"
 gem "mini_magick"
 gem "fog"
