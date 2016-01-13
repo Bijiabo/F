@@ -148,16 +148,16 @@ class UsersController < ApplicationController
     @title = "Following"
     @user  = User.find(params[:id])
     @users = @user.following.paginate(page: params[:page])
+
     render 'show_follow'
-    # TODO: json response
   end
 
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
+
     render 'show_follow'
-    # TODO: json response
   end
 
   def userProfile

@@ -52,7 +52,11 @@ Rails.application.routes.draw do
   get 'check_token' => 'tokens#check_token'
 
   # relationships
-  resources :relationships, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy] do
+    collection do
+      delete 'unfollow'
+    end
+  end
 
   # cats
   resources :cats do
