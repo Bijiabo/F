@@ -6,15 +6,17 @@ class Flux < ActiveRecord::Base
   has_many :flux_likes, dependent: :destroy, inverse_of: :flux
   # trends
   has_many :trends, dependent: :destroy, inverse_of: :flux
+  # images
+  has_many :flux_images, dependent: :destroy, inverse_of: :flux
 
   default_scope -> { order(created_at: :desc) }
 
   validates :user_id, presence: true
   validates :motion, presence: true, length: {maximum: 250}
   validates :content, presence: true, length: {maximum: 140}
-  validate :picture_size
+  # validate :picture_size
 
-  mount_uploader :picture, PictureUploader
+  # mount_uploader :picture, PictureUploader
 
   private
 

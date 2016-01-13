@@ -11,7 +11,12 @@
     </h4>
     <p>
       <%= flux.content %>
-      <%= image_tag flux.picture.url, class: "img-responsive" if flux.picture? %>
+      <%#=  image_tag flux.picture.url, class: "img-responsive" if flux.picture? %>
+      <% if flux.flux_images.length > 0 %>
+      <% flux.flux_images.each do |image| %>
+          <%=  image_tag image.picture.url, class: "img-responsive" if image.picture? %>
+      <% end %>
+      <% end %>
     </p>
 
     <p>

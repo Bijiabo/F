@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111072016) do
+ActiveRecord::Schema.define(version: 20160113141345) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 20160111072016) do
   add_index "flux_comments", ["flux_id"], name: "index_flux_comments_on_flux_id"
   add_index "flux_comments", ["user_id", "flux_comments_id"], name: "index_flux_comments_on_user_id_and_flux_comments_id"
   add_index "flux_comments", ["user_id"], name: "index_flux_comments_on_user_id"
+
+  create_table "flux_images", force: :cascade do |t|
+    t.integer  "flux_id"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "picture"
+  end
+
+  add_index "flux_images", ["flux_id"], name: "index_flux_images_on_flux_id"
 
   create_table "flux_likes", force: :cascade do |t|
     t.integer  "user_id"

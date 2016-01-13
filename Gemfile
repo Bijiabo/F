@@ -5,6 +5,8 @@ gem "grocer"
 gem "mini_magick"
 gem "fog"
 gem "carrierwave"
+gem "mini_magick"
+gem "fastimage"
 gem "figaro"
 # User will_paginate-bootstrap
 gem 'will_paginate-bootstrap'
