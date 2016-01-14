@@ -62,6 +62,7 @@ class TokensController < ApplicationController
   end
 
   def check_token
+    @user = current_user
     # set avatar
     avatar = @user.avatar
     unless avatar.url
