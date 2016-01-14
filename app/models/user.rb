@@ -22,12 +22,16 @@ class User < ActiveRecord::Base
   # remote notification tokens
   has_many :remote_notification_tokens, dependent: :destroy, inverse_of: :user
 
+  mount_uploader :avatar, PictureUploader
+
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
   validates :email, presence: true, length: {maximum: 255}, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
 
   has_secure_password
   validates :password, presence: true, length: {minimum: 6}, allow_nil:true
+
+  # validates :picture_size
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
@@ -113,6 +117,14 @@ class User < ActiveRecord::Base
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+    end
+
+
+    # 验证上传的图片大小
+    def picture_size
+      if picture.size > 5.megabytes
+        errors.add(:picture, "should be less than 5MB")
+      end
     end
 
 end

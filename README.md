@@ -2,9 +2,17 @@
 
 ## install packages
 
+### Ubuntu
+
 ```
 $ sudo apt-get update
 $ sudo apt-get install imagemagick --fix-missing
+
+```
+
+### OS X
+```
+brew install imagemagick ghostscript
 ```
 
 ## applicaiton.yml

@@ -4,7 +4,11 @@ json.array!(@fluxes) do |flux|
     json.created_at format_date flux.created_at
 
     json.picture do
-      json.array! flux.flux_images, :width, :height, :picture
+      json.array! flux.flux_images do |image|
+        json.width image.width
+        json.height image.height
+        json.path image.picture.url
+      end
     end
   end
 
@@ -12,6 +16,8 @@ json.array!(@fluxes) do |flux|
     json.user do
       json.id user.id
       json.name user.name
+      json.avatar_name username_for_avatar user.name
+      json.avatar letter_avatar_for(username_for_avatar(user.name), 200)
     end
   end
 
