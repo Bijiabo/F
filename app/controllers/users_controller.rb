@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :cats]
+  before_action :set_user, only: [ :edit, :update, :destroy, :cats]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = User.includes([:cats]).find_by(id: params[:id])
     if @user.nil?
       error_description = "no such user."
       respond_to do |format|
@@ -27,14 +28,16 @@ class UsersController < ApplicationController
         end
       end
     else
-      @fluxes = @user.fluxes.paginate(page: params[:page])
+      @fluxes = Flux.includes([:user, :flux_images]).order(created_at: :desc).where(user_id: @user.id).paginate(page: params[:page])
       @flux = @user.fluxes.build if current_user?(@user)
       respond_to do |format|
         format.html do
           redirect_to root_url and return unless @user.activated?
         end
         format.json do
-          render json: {success: true, user: @user.as_json(only: [:id, :name, :email]), fluxes: @fluxes}
+          @thumb_count = Flux.where(user_id: @user.id).sum("like_count")
+          render :show
+          # render json: {success: true, user: @user.as_json(only: [:id, :name, :email]), fluxes: @fluxes}
         end
       end
 
