@@ -2,6 +2,7 @@ json.user do
   json.id @user.id
   json.name @user.name
   json.following_count @user.following.count
+  json.followers_count @user.followers.count
   json.thumb_count @thumb_count
   json.cats do
     json.array!(@user.cats) do |cat|

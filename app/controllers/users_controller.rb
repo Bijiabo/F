@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         end
       end
     else
-      @fluxes = Flux.includes([:user, :flux_images]).order(created_at: :desc).where(user_id: @user.id).paginate(page: params[:page])
+      @fluxes = Flux.includes([:user, :flux_images]).order(created_at: :desc).where(user_id: @user.id).paginate(page: current_page)
       @flux = @user.fluxes.build if current_user?(@user)
       respond_to do |format|
         format.html do
@@ -193,6 +193,11 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to root_url unless current_user.admin?
+    end
+
+    def current_page
+      page = 1
+      page = Integer(params[:page]) > 0 ? params[:page] : 1 if params[:page]
     end
 
 
