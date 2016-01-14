@@ -1,4 +1,5 @@
 class TokensController < ApplicationController
+  include LetterAvatar::AvatarHelper
   before_action :logged_in_user, only: [:index, :destroy]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
@@ -42,7 +43,12 @@ class TokensController < ApplicationController
       end
 
       if token.save
-        response = {email: user.email,name: user.name, token: token}
+        # set avatar
+        avatar = user.avatar
+        unless avatar.url
+          avatar = letter_avatar_url_for(letter_avatar_for(Pinyin.t(user.name), 200))
+        end
+        response = {email: user.email,name: user.name, token: token, avatar: avatar}
       elsif !token.valid?
         response[:description] =  "Incomplete information."
         response[:name] = token_name
@@ -56,6 +62,12 @@ class TokensController < ApplicationController
   end
 
   def check_token
+    # set avatar
+    avatar = @user.avatar
+    unless avatar.url
+      avatar = letter_avatar_url_for(letter_avatar_for(Pinyin.t(@user.name), 200))
+    end
+
     respond_to do |format|
       format.html do
         render json: {error: true, description: "only for application clients."}
@@ -64,7 +76,7 @@ class TokensController < ApplicationController
       format.json do
         if current_user
           @user = current_user
-          render json: {success: true, user: {id: @user.id, name: @user.name, email: @user.email}, description: "Token check success."}
+          render json: {success: true, user: {id: @user.id, name: @user.name, email: @user.email}, description: "Token check success.", avatar: avatar}
         else
           render json: {error: false, description: "error token."}
         end
