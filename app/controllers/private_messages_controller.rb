@@ -16,9 +16,7 @@ class PrivateMessagesController < ApplicationController
         end
       end
 
-      {
-          user: sender,
-          count: count}
+      {user: sender, count: count}
     end
 
     @groups += receivers.uniq.delete_if {|x|x==current_user} .map do |receiver|
