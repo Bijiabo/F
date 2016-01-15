@@ -24,14 +24,14 @@ image_maxium_height: '400'
 
 # 邮件服务器设置
 # 邮件服务器地址
-SENDGRID_ADDRESS: smtp.qq.com
+SENDGRID_ADDRESS: smtp.mxhichina.com
 # 邮件服务器端口
 SENDGRID_PORT: '25'
 # Domain
-SENDGRID_DOMAIN: qq.com
+SENDGRID_DOMAIN: bijiabo.com
 # 邮件服务器用户名
-SENDGRID_USERNAME: 550757971@qq.com
+SENDGRID_USERNAME: test@bijiabo.com
 # 邮件服务器密码
-SENDGRID_PASSWORD: zaqZAQzaq123
+SENDGRID_PASSWORD: zaqZAQzaq2016.
 # 发送邮件的账户地址
 SENDGRID_FORM: test@bijiabo.com

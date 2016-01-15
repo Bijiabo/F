@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Touser:</strong>
+  <%= @private_message.toUser %>
+</p>
+
+<p>
+  <strong>Fromuser:</strong>
+  <%= @private_message.fromUser %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @private_message.content %>
+</p>
+
+<p>
+  <strong>Picture:</strong>
+  <%= @private_message.picture %>
+</p>
+
+<%= link_to 'Edit', edit_private_message_path(@private_message) %> |
+<%= link_to 'Back', private_messages_path %>
