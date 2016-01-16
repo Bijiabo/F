@@ -15,13 +15,14 @@ class PrivateMessagesController < ApplicationController
           receivers.delete_if {|x|x==receiver}
         end
       end
-
-      {user: sender, count: count}
+      latestMessage = @private_messages.order(created_at: :desc).find_by(fromUser_id: sender.id)
+      {user: sender, count: count, latestMessage: latestMessage}
     end
 
     @groups += receivers.uniq.delete_if {|x|x==current_user} .map do |receiver|
       count = receivers.select {|x|x==receiver} .count
-      {user: receiver, count: count}
+      latestMessage = @private_messages.order(created_at: :desc).find_by(toUser_id: receiver.id)
+      {user: receiver, count: count, latestMessage: latestMessage}
     end
   end
 

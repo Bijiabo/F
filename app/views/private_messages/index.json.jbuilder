@@ -4,5 +4,5 @@ json.array!(@groups) do |group|
     json.avatar group[:user][:avatar]
   end
   json.count group[:count]
-  # json.url private_message_url(private_message, format: :json)
+  json.latestMessage group[:latestMessage]
 end
