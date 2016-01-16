@@ -1,0 +1,6 @@
+json.title @content[:title]
+json.picture @content["lead_image_url"]
+json.content @content[:content]
+json.author @content[:author]
+json.time @content[:time]
+json.url @content[:url]

@@ -7,27 +7,20 @@ class ReadersController < ApplicationController
 
   # GET /readFormatHelper
   def formatHelper
-    token = "e4a8c8fb7005519eaf713d2d38a042084557d859" # TODO: change token
     target_url = params.permit(:url)["url"]
-    url = "http://readability.com/api/content/v1/parser?token=#{token}&url=#{target_url}"
-
-    def open(url)
-      Net::HTTP.get(URI.parse(url))
-    end
-
-    content = JSON open(url)
-    content["version"] = '0.0.1'
-    render json: content
+    @content = parse_content target_url
+    render :formater
   end
 
   # GET /list
   def list
     page = current_page
-    uri = "http://time.com/us/page/#{page}"
+    uri = page == 1 ? "http://time.com/us/" : "http://time.com/us/page/#{page}"
     @html = load_html(uri)
     list_data = parse_list params[:site]
 
     render json: {
+        success: true,
         list: list_data
     }
   end
@@ -103,8 +96,14 @@ class ReadersController < ApplicationController
       params[:reader]
     end
 
+    def open_url(target_url)
+      open(target_url,
+           "User-Agent"=> 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.17 Safari/537.36'
+      )
+    end
+
     def load_html target_url
-      Nokogiri::HTML open target_url
+      Nokogiri::HTML open_url(target_url)
     end
 
     def current_page
@@ -126,6 +125,24 @@ class ReadersController < ApplicationController
             currentPageData.push itemData
           end
       end
+      currentPageData
+    end
+
+    def parse_content(site_url)
+      html = load_html site_url
+      currentPageData = {}
+
+      case site_url
+        when /^https?:\/\/time\.com\//i
+          currentPageData = {
+              title: html.css('.article-header .article-title').first.content,
+              author: html.css('.article-author').first.content,
+              time: html.css('.publish-date').first.content,
+              content: html.css('.article-body').first.children.to_html,
+              url: site_url
+          }
+      end
+
       currentPageData
     end
 end

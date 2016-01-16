@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # for parse web
 gem "nokogiri"
+gem "mechanize"
 
 gem "mini_magick"
 gem "fog"
