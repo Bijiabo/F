@@ -52,8 +52,12 @@ Rails.application.routes.draw do
   get 'nearbyCat' => 'cats#nearby'
 
   # reader
-  resource :readers
-  get 'readFormatHelper' => 'readers#formatHelper'
+  resource :readers do
+    collection do
+      get 'list/:site', to: :list
+      get 'formater', to: :formatHelper
+    end
+  end
 
   # error pages
   get 'error' => 'error#show'

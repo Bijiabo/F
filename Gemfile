@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# for parse web
+gem "nokogiri"
+
 gem "mini_magick"
 gem "fog"
 gem "carrierwave"

@@ -46,3 +46,5 @@ spring/
 public/uploads
 
 config/application.yml
+
+config/certificate.pem

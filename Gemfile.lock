@@ -351,6 +351,7 @@ DEPENDENCIES
   jquery-rails
   mini_magick
   minitest-reporters
+  nokogiri
   pg
   rails (= 4.2.4)
   sass-rails (~> 5.0)
