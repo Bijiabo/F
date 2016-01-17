@@ -8,8 +8,16 @@ class ReadersController < ApplicationController
   # GET /readFormatHelper
   def formatHelper
     target_url = params.permit(:url)["url"]
-    @content = parse_content target_url
-    render :formater
+    token = "e4a8c8fb7005519eaf713d2d38a042084557d859" # TODO: change token
+    target_url = params.permit(:url)["url"]
+    url = "http://readability.com/api/content/v1/parser?token=#{token}&url=#{target_url}"
+
+    content = JSON Net::HTTP.get(URI.parse(url))
+    content["version"] = '0.0.1'
+    render json: content
+
+    # @content = parse_content target_url
+    # render :formater
   end
 
   # GET /list
@@ -119,7 +127,7 @@ class ReadersController < ApplicationController
           @html.css('.section-archive-list__article').each do |element|
             itemData = {
                 title: element.css('.section-article-title a').first.content,
-                picture: element.css('figure a img').first.attr('src'),
+                picture: element.css('figure a img').first.attr('src'), #.gsub(/(\?|%2C)[\w=&]*/i, ''),
                 url: element.css('.section-article-title a').first.attr('href')
             }
             currentPageData.push itemData
@@ -134,12 +142,19 @@ class ReadersController < ApplicationController
 
       case site_url
         when /^https?:\/\/time\.com\//i
+          content = html.css('.article-body .clipper-content').first.css('*')
+                        .filter(':not([class^=right])')
+                        .select {|x| !['param','object','footer'].include?(x.name) && !x.matches?('.time-icon')}
+                        .map {|x| x.to_html}
+                        .join('')
+
           currentPageData = {
               title: html.css('.article-header .article-title').first.content,
               author: html.css('.article-author').first.content,
               time: html.css('.publish-date').first.content,
-              content: html.css('.article-body').first.children.to_html,
-              url: site_url
+              url: site_url,
+              content: content
+                  #html.css('.article-body').first.children.to_html,
           }
       end
 
