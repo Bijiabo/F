@@ -44,15 +44,9 @@ class FluxesController < ApplicationController
         format.html do
           render 'show'
         end
-        user = @flux.user
+
         format.json do
-          render json: {
-              flux: @flux,
-              user: {
-                  name: user.name,
-                  id: user.id
-              }
-          }
+          render :show
         end
       end
     end

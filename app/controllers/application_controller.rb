@@ -9,9 +9,16 @@ class ApplicationController < ActionController::Base
 
   # Apple APNs
   # TODO: - need to be completed
-  def pushNotification
+  def pushNotification(user_id, alert="New Message!", badge=0)
     certificateFilePath = File.join(Rails.root, "config", "certificate.pem")
     return if !File.exist?(certificateFilePath)
+
+    device_token = RemoteNotificationToken.find_by(user_id: user_id)
+    return unless device_token
+
+    if alert.length > 100
+      alert = "#{alert[0..100]}..."
+    end
 
     passphrase = "Changeit!"
     gateway = "gateway.sandbox.push.apple.com" # "gateway.push.apple.com"
@@ -23,9 +30,9 @@ class ApplicationController < ActionController::Base
         retries:     3                         # optional
     )
     notification = Grocer::Notification.new(
-        device_token:      "24185ab393d8a763ab8f9976bacc39feeac342e92858558927a04dcf0f2140a4",
-        alert:             "Hello from Grocer!",
-        badge:             42,
+        device_token:      device_token.token, #"24185ab393d8a763ab8f9976bacc39feeac342e92858558927a04dcf0f2140a4",
+        alert:             alert,
+        badge:             badge,
         category:          "a category",         # optional; used for custom notification actions
         sound:             "siren.aiff",         # optional
         expiry:            Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
@@ -51,6 +58,12 @@ class ApplicationController < ActionController::Base
           render json: {error: true, description: error_massage}
         end
       end
+    end
+
+  protected
+
+    def json_request?
+      request.format.json?
     end
 
 end

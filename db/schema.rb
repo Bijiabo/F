@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114045731) do
+ActiveRecord::Schema.define(version: 20160115074655) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -76,6 +76,18 @@ ActiveRecord::Schema.define(version: 20160114045731) do
 
   add_index "fluxes", ["user_id", "created_at"], name: "index_fluxes_on_user_id_and_created_at"
   add_index "fluxes", ["user_id"], name: "index_fluxes_on_user_id"
+
+  create_table "private_messages", force: :cascade do |t|
+    t.integer  "toUser_id"
+    t.integer  "fromUser_id"
+    t.string   "content"
+    t.string   "picture"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "private_messages", ["fromUser_id"], name: "index_private_messages_on_fromUser_id"
+  add_index "private_messages", ["toUser_id"], name: "index_private_messages_on_toUser_id"
 
   create_table "readers", force: :cascade do |t|
     t.datetime "created_at", null: false

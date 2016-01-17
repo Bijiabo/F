@@ -16,7 +16,6 @@ json.array!(@fluxes) do |flux|
     json.user do
       json.id user.id
       json.name user.name
-      json.avatar_name username_for_avatar user.name
       json.avatar letter_avatar_url_for(letter_avatar_for(username_for_avatar(user.name), 200))
     end
   end

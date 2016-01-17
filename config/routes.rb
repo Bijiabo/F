@@ -77,6 +77,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # private messages
+  resources :private_messages, except: [:edit, :destroy] do
+    collection do
+      get 'with_user/:id', to: :with_user
+    end
+  end
+
   # error pages
   get 'error' => 'error#show'
 
