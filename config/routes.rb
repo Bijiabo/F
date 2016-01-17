@@ -78,7 +78,7 @@ Rails.application.routes.draw do
   end
 
   # private messages
-  resources :private_messages do
+  resources :private_messages, except: [:edit, :destroy] do
     collection do
       get 'with_user/:id', to: :with_user
     end
