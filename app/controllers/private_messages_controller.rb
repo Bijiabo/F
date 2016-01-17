@@ -52,9 +52,9 @@ class PrivateMessagesController < ApplicationController
 
     respond_to do |format|
       if @private_message.save
-        notification_content = "#{current_user.name}: #{params[:content]}"
+        notification_content = "[私信] #{current_user.name}: #{params[:content]}"
         if notification_content.empty?
-          notification_content = "#{current_user.name}给你发送了一张图片"
+          notification_content = "[私信] #{current_user.name}给你发送了一张图片"
         end
         pushNotification params[:toUser_id], notification_content, 1
         format.html { redirect_to @private_message, notice: 'Private message was successfully created.' }
