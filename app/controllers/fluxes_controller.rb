@@ -163,7 +163,7 @@ class FluxesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_flux
-      @flux = Flux.find_by({id: params[:id]})
+      @flux = Flux.includes([:user, :flux_images]).find_by({id: params[:id]})
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
