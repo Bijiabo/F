@@ -10,6 +10,8 @@ class FluxesController < ApplicationController
   def index
     page = 1
     page = Integer(params[:page]) > 0 ? params[:page] : 1 if params[:page]
+    @following = []
+    @following = current_user.following.select(:id).map {|user| user.id} if logged_in?
 
     respond_to do |format|
       format.html do
@@ -28,7 +30,7 @@ class FluxesController < ApplicationController
   # GET /fluxes/1
   # GET /fluxes/1.json
   def show
-    if @flux.nil? then
+    if @flux.nil?
       error_description = "no such flux."
       respond_to do |format|
         format.html do
@@ -40,6 +42,8 @@ class FluxesController < ApplicationController
         end
       end
     else
+      @is_following = false
+      @is_following = current_user.following? @flux.user if logged_in?
       respond_to do |format|
         format.html do
           render 'show'

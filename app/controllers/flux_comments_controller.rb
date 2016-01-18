@@ -70,6 +70,8 @@ class FluxCommentsController < ApplicationController
       if @flux_comment.save
         @success = true
 
+        pushNotification @flux_comment.flux.user_id, "#{current_user.name} 评论了你的状态"
+
         if flux = Flux.find_by(id: flux_params[:flux_id])
 
           # update flux comment count
