@@ -61,13 +61,16 @@ class FluxCommentsController < ApplicationController
   # POST /flux_comments
   # POST /flux_comments.json
   def create
-    @flux_comment = FluxComment.new(flux_comment_params)
+    flux_params = flux_comment_params
+    flux_params[:user_id] = current_user.id
+    flux_params[:parentComment_id] = nil if flux_params[:parentComment_id] == 0
+    @flux_comment = FluxComment.new(flux_params)
 
     respond_to do |format|
       if @flux_comment.save
         @success = true
 
-        if flux = Flux.find_by(id: params[:flux_comment][:flux_id])
+        if flux = Flux.find_by(id: flux_params[:flux_id])
 
           # update flux comment count
           flux.increment :comment_count, 1
@@ -130,7 +133,7 @@ class FluxCommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_comment_params
-      params.require(:flux_comment).permit(:content, :user_id, :parentComment_id, :flux_id)
+      params.require(:flux_comment).permit(:content, :parentComment_id, :flux_id)
     end
 
     def correct_user

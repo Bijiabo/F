@@ -1,4 +1,4 @@
-json.extract! @flux_comment, :id, :content, :created_at
+json.comment @flux_comment
 
 json.user do
   json.id @flux_comment.user_id

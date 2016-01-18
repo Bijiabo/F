@@ -156,7 +156,7 @@ class FluxesController < ApplicationController
   end
 
   def comments
-    @comments = FluxComment.includes(:user).where({flux_id: params[:id]})
+    @comments = FluxComment.where({flux_id: params[:id]}).includes(:user,:parentComment)
     render :comments
   end
 

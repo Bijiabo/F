@@ -1,12 +1,13 @@
 json.array!(@comments) do |comment|
   # comment data
   json.comment comment
+
+  json.parent_comment comment.parentComment
+
   # comment's user data
-  if user = comment.user
-    json.user do
-      json.id user.id
-      json.name user.name
-    end
+  json.user do
+    json.id comment.user.id
+    json.name comment.user.name
   end
 
 end
