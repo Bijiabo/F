@@ -1,6 +1,6 @@
 class PrivateMessagesController < ApplicationController
   before_action :set_private_message, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:new, :create, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
 
