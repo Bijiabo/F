@@ -23,7 +23,7 @@ class ReadersController < ApplicationController
   # GET /list
   def list
     page = current_page
-    uri = page == 1 ? "http://time.com/us/" : "http://time.com/us/page/#{page}"
+    uri = url_for_site params[:site], page
     @html = load_html(uri)
     list_data = parse_list params[:site]
 
@@ -132,8 +132,29 @@ class ReadersController < ApplicationController
             }
             currentPageData.push itemData
           end
+        when 'techcrunch'
+          @html.css('.river-block').each do |element|
+            picture = element.css('.thumb img').first.attr('src') if element.css('.thumb img').first
+            title = element.css('.post-title a').first.content if element.css('.post-title a').first
+            url = element.css('.post-title a').first.attr('href') if element.css('.post-title a').first
+            itemData = {
+                title: title,
+                picture: picture, #.gsub(/(\?|%2C)[\w=&]*/i, ''),
+                url: url
+            }
+            currentPageData.push itemData if url
+          end
       end
       currentPageData
+    end
+
+    def url_for_site(site_id, page)
+      case site_id
+        when 'time_us'
+          page == 1 ? "http://time.com/us/" : "http://time.com/us/page/#{page}"
+        when 'techcrunch'
+          page == 1 ? "http://techcrunch.com/" : "http://techcrunch.com/page/#{page}"
+      end
     end
 
     def parse_content(site_url)
