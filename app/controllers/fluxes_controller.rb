@@ -71,14 +71,16 @@ class FluxesController < ApplicationController
   # POST /fluxes.json
   def create
     @flux = current_user.fluxes.build flux_params
-    picutre_size = FastImage.size flux_image_params[:picture].path
-    @flux_images = @flux.flux_images.build({
-                                               picture: flux_image_params[:picture],
-                                               width: picutre_size[0],
-                                               height: picutre_size[1]
-    })
+    if !flux_image_params[:picture].to_s.empty?
+      picutre_size = FastImage.size flux_image_params[:picture].path
+      @flux_images = @flux.flux_images.build({
+                                                 picture: flux_image_params[:picture],
+                                                 width: picutre_size[0],
+                                                 height: picutre_size[1]
+                                             })
+    end
 
-    if @flux.save && @flux_images.save
+    if @flux.save && (@flux_images ? @flux_images.save : true)
       flash[:success] = "Create flux successfully!"
       respond_to do |format|
         format.html do
@@ -172,7 +174,7 @@ class FluxesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_params
-      params.require(:flux).permit(:motion, :content, :user_id)
+      params.require(:flux).permit(:motion, :content)
     end
 
     def flux_image_params
