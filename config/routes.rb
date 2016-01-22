@@ -34,6 +34,10 @@ Rails.application.routes.draw do
     member do
       get :following, :followers, :userProfile, :cats
     end
+
+    collection do
+      put 'avatar'
+    end
   end
   get 'signup' => 'users#new'
   # for application client register

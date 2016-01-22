@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers]
-  before_action :set_user, only: [ :edit, :update, :destroy, :cats]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar]
+  before_action :set_user, only: [ :edit, :update, :destroy, :cats, :avatar]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -117,7 +117,14 @@ class UsersController < ApplicationController
         render json: {success: success, description: description}
       }
     end
+  end
 
+  def avatar
+    avatar = params.permit(:avatar)
+    @user.avatar = avatar
+    success = @user.save ? true : false
+
+    render json: {success: success}
   end
 
   # DELETE /users/1
