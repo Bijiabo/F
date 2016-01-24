@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
     collection do
       put 'avatar'
+      get 'self_information'
     end
   end
   get 'signup' => 'users#new'
