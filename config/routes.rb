@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
     collection do
       put 'avatar'
+      post 'update_information'
       get 'self_information'
     end
   end

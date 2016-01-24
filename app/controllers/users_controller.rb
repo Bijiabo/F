@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information, :update_information]
   before_action :set_user, only: [ :edit, :update, :destroy, :cats, :avatar]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
@@ -129,6 +129,23 @@ class UsersController < ApplicationController
 
   def self_information
     @user = current_user
+    @success = true
+    render :self_information
+  end
+
+  def update_information
+    @user = current_user
+    update_params = params.require(:user)
+
+    update_params.each do |key, value|
+      next if !["id", "name", "email", "avatar"].include?(key)
+      if User.column_names.include? key
+        @user[key] = value
+      end
+    end
+
+    @success = @user.save ? true : false
+
     render :self_information
   end
 
