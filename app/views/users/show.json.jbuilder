@@ -10,7 +10,7 @@ json.user do
       json.name cat.name
     end
   end
-  json.avatar letter_avatar_url_for(letter_avatar_for(username_for_avatar(@user.name), 200))
+  json.avatar avatar_for_user @user
 end
 
 json.flux do

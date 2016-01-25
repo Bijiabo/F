@@ -14,6 +14,6 @@ end
 json.user do
   json.id @flux.user.id
   json.name @flux.user.name
-  json.avatar letter_avatar_url_for(letter_avatar_for(username_for_avatar(@flux.user.name), 200))
+  json.avatar avatar_for_user @flux.user
   json.following @is_following
 end

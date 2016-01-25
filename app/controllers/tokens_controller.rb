@@ -46,7 +46,7 @@ class TokensController < ApplicationController
         # set avatar
         avatar = user.avatar
         unless avatar.url
-          avatar = letter_avatar_url_for(letter_avatar_for(Pinyin.t(user.name), 200))
+          avatar = avatar_for_user user
         end
         response = {email: user.email,name: user.name, token: token, avatar: avatar}
       elsif !token.valid?
@@ -66,7 +66,7 @@ class TokensController < ApplicationController
     # set avatar
     avatar = @user.avatar
     unless avatar.url
-      avatar = letter_avatar_url_for(letter_avatar_for(Pinyin.t(@user.name), 200))
+      avatar = avatar_for_user @user
     end
 
     respond_to do |format|

@@ -129,6 +129,7 @@ class UsersController < ApplicationController
 
   def self_information
     @user = current_user
+    @thumb_count = Flux.where(user_id: @user.id).sum("like_count")
     @success = true
     render :self_information
   end
@@ -137,14 +138,16 @@ class UsersController < ApplicationController
     @user = current_user
     update_params = params.require(:user)
 
+    update_data = Hash.new
+
     update_params.each do |key, value|
-      next if !["id", "name", "email", "avatar"].include?(key)
+      next if !["id", "name", "email", "avatar", "introduction", "gender", "province", "city"].include?(key)
       if User.column_names.include? key
-        @user[key] = value
+        update_data[key] = value
       end
     end
 
-    @success = @user.save ? true : false
+    @success = @user.update(update_data) ? true : false
 
     render :self_information
   end

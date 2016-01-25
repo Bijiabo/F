@@ -23,4 +23,12 @@ module ApplicationHelper
     Pinyin.t name
   end
 
+  def avatar_for_user(user)
+    if user.avatar.url
+      user.avatar.url
+    else
+      letter_avatar_url_for(letter_avatar_for(username_for_avatar(user.name), 200))
+    end
+  end
+
 end

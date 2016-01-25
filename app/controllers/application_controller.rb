@@ -44,6 +44,19 @@ class ApplicationController < ActionController::Base
 
 
   private
+
+    def username_for_avatar(name)
+      Pinyin.t name
+    end
+
+    def avatar_for_user(user)
+      if user.avatar
+        user.avatar.url
+      else
+        letter_avatar_url_for(letter_avatar_for(username_for_avatar(user.name), 200))
+      end
+    end
+
     # 确保用户已登录
     def logged_in_user
       unless logged_in?

@@ -8,7 +8,7 @@ json.array!(@comments) do |comment|
       json.user do
         json.id comment.parentComment.user.id
         json.name comment.parentComment.user.name
-        json.avatar letter_avatar_url_for(letter_avatar_for(username_for_avatar(comment.parentComment.user.name), 200))
+        json.avatar avatar_for_user comment.parentComment.user
       end
     end
   end
@@ -17,7 +17,7 @@ json.array!(@comments) do |comment|
   json.user do
     json.id comment.user.id
     json.name comment.user.name
-    json.avatar letter_avatar_url_for(letter_avatar_for(username_for_avatar(comment.user.name), 200))
+    json.avatar avatar_for_user comment.user
   end
 
 end
