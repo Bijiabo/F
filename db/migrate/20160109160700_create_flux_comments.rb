@@ -7,6 +7,6 @@ class CreateFluxComments < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :flux_comments, [:user_id]
+    # add_index :flux_comments, [:user_id]
   end
 end
