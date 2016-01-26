@@ -48,3 +48,5 @@ public/uploads
 config/application.yml
 
 config/certificate.pem
+
+public/assets/*
