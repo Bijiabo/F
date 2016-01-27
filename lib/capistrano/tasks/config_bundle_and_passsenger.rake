@@ -22,6 +22,32 @@ task :rake do
   end
 end
 
+desc "Install app dependencies"
+task :install_dependencies do
+  on roles(:app), in: :sequence, wait: 5 do
+    within release_path do
+      as :deploy do
+        with rails_env: :production do
+          execute 'bundle', 'install', '--deployment', '--without', 'development', 'test'
+        end
+      end
+    end
+  end
+end
+
+desc "Compile Rails assets and run database migrations"
+task :compile_rails_assets_and_run_database_migrations do
+  on roles(:app), in: :sequence, wait: 5 do
+    within release_path do
+      as :deploy do
+        with rails_env: :production do
+          execute 'bundle', 'exec', 'rake', 'assets:precompile', 'db:migrate', 'RAILS_ENV=production'
+        end
+      end
+    end
+  end
+end
+
 desc "reatart passenger"
 task :restart_passenager do
   on roles(:app), in: :sequence, wait: 5 do
