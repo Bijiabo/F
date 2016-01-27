@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem "chinese_pinyin"
 gem "letter_avatar"
-gem "stamp"
 gem "grocer"
 gem "mini_magick"
 gem "fog"

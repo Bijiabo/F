@@ -1,6 +1,10 @@
 json.array!(@comments) do |comment|
   # comment data
-  json.comment comment
+  json.comment do
+    json.id comment.id
+    json.user_id comment.user.id
+    json.created_at format_date comment.created_at
+  end
 
   if comment.parentComment
     json.parent_comment do
