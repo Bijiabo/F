@@ -25,10 +25,10 @@ set :scm, :git
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/certificate.pem', 'config/application.yml')
+# set :linked_files, fetch(:linked_files, []).push('config/certificate.pem', 'config/application.yml')
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,7 +42,15 @@ set :rvm_custom_path, '~/.rvm'  # only needed if not detected
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
+# If you need to touch public/images, public/javascripts, and public/stylesheets on each deploy
+set :normalize_asset_timestamps, %{public/images public/javascripts public/stylesheets}
 
+# Defaults to 'db'
+set :migration_role, 'migrator'
+
+# Defaults to false
+# Skip migration if files in db/migrate were not modified
+set :conditionally_migrate, true
 
 namespace :deploy do
 
@@ -57,4 +65,12 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
+end
+
+namespace :rake do
+  desc "Invoke rake task"
+  task :invoke do
+    run "cd #{deploy_to}/current"
+    run "bundle exec rake #{ENV['task']} RAILS_ENV=#{rails_env}"
+  end
 end
