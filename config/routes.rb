@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       put 'avatar'
       post 'update_information'
       get 'self_information'
+      get 'self_following'
     end
   end
   get 'signup' => 'users#new'

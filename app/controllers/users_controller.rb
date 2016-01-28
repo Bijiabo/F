@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information, :update_information]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information, :update_information, :self_following]
   before_action :set_user, only: [ :edit, :update, :destroy, :cats, :avatar]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
@@ -150,6 +150,19 @@ class UsersController < ApplicationController
     @success = @user.update(update_data) ? true : false
 
     render :self_information
+  end
+
+  def self_following
+    @users = current_user.following
+    @users = @users.map do |item|
+      {
+          info: item,
+          name_spelling: Pinyin.t(item.name).downcase
+      }
+    end
+
+    @users = @users.sort_by { |item| item[:name_spelling] }
+    @success = true
   end
 
   # DELETE /users/1
