@@ -4,7 +4,9 @@ class TrendsController < ApplicationController
   # GET /trends
   # GET /trends.json
   def index
-    @trends = Trend.includes([:to_user, :from_user, :flux]).where(to_user: current_user).order(created_at: :desc)
+    page = 1
+    page = Integer(params[:page]) > 0 ? Integer(params[:page]) : 1 if params[:page]
+    @trends = Trend.includes([:to_user, :from_user, :flux]).where(to_user: current_user).order(created_at: :desc).paginate(page: page)
     # TODO: Need to optimize flux_images query
 
     respond_to do |format|

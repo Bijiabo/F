@@ -9,7 +9,7 @@ class FluxesController < ApplicationController
   # GET /fluxes.json
   def index
     page = 1
-    page = Integer(params[:page]) > 0 ? params[:page] : 1 if params[:page]
+    page = Integer(params[:page]) > 0 ? Integer(params[:page]) : 1 if params[:page]
     @following = []
     @following = current_user.following.select(:id).map {|user| user.id} if logged_in?
 
