@@ -2,7 +2,7 @@ json.array!(@comments) do |comment|
   # comment data
   json.comment do
     json.id comment.id
-    json.user_id comment.user.id
+    json.content comment.content
     json.created_at format_date comment.created_at
   end
 

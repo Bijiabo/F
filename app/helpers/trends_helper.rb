@@ -10,14 +10,14 @@ module TrendsHelper
     FOLLOW = "follow"
   end
 
-  def createTrends(to_user_id, type, refer)
+  def createTrends(to_user_id, type, *refers)
     from_user = current_user()
     return if from_user.id == to_user_id
 
     trend = Trend.new({
       from_user_id: from_user.id,
       trends_type: type,
-      to_user_id: to_user_id
+      to_user_id: to_user_id,
     })
 
     content = ""
@@ -25,19 +25,24 @@ module TrendsHelper
     case type
       # flux
       when TrendsHelper::Type::FLUX_REFER
-        trend.flux = refer
+        trend.flux = refers[0]
+        trend.flux_comment = refers[1]
         content = "#{from_user.name}在状态里提到了你"
       when TrendsHelper::Type::FLUX_LIKE
-        trend.flux = refer
+        trend.flux = refers[0]
+        trend.flux_comment = refers[1]
         content = "#{from_user.name}喜欢了你的状态"
       when TrendsHelper::Type::FLUX_COMMENT_REFER
-        trend.flux = refer
+        trend.flux = refers[0]
+        trend.flux_comment = refers[1]
         content = "#{from_user.name}在评论里提到了你"
       when TrendsHelper::Type::FLUX_COMMENT_REPLY
-        trend.flux = refer
+        trend.flux = refers[0]
+        trend.flux_comment = refers[1]
         content = "#{from_user.name}回复了你"
       when TrendsHelper::Type::FLUX_COMMENT_THUMBS
-        trend.flux = refer
+        trend.flux = refers[0]
+        trend.flux_comment = refers[1]
         content = "#{from_user.name}赞了你的评论"
 
       # relationship

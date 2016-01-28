@@ -70,7 +70,12 @@ class FluxCommentsController < ApplicationController
       if @flux_comment.save
         @success = true
 
-        pushNotification @flux_comment.flux.user_id, "#{current_user.name} 评论了你的状态"
+        if flux_params[:parentComment_id] == nil
+          pushNotification @flux_comment.flux.user_id, "#{current_user.name} 评论了你的状态"
+        else
+          pushNotification @flux_comment.flux.user_id, "#{current_user.name} 回复了你的评论"
+        end
+
 
         if flux = Flux.find_by(id: flux_params[:flux_id])
 
@@ -79,7 +84,12 @@ class FluxCommentsController < ApplicationController
           flux.save
 
           # send trends to user
-          createTrends flux.user_id, TrendsHelper::Type::FLUX_COMMENT_REPLY, flux
+          if flux_params[:parentComment_id] == nil
+            createTrends flux.user_id, TrendsHelper::Type::FLUX_COMMENT_REPLY, flux, @flux_comment
+          else
+            createTrends flux.user_id, TrendsHelper::Type::FLUX_COMMENT_REFER, flux, @flux_comment
+          end
+
         end
 
         format.html { redirect_to @flux_comment, notice: 'Flux comment was successfully created.' }

@@ -5,4 +5,5 @@ class FluxComment < ActiveRecord::Base
   has_many :childComment, class_name: "FluxComment"#, foreign_key: "childComment_id"
   belongs_to :parentComment, class_name: "FluxComment"#, foreign_key: "parentComment_id"
 
+  has_many :trend
 end

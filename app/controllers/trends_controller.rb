@@ -4,7 +4,8 @@ class TrendsController < ApplicationController
   # GET /trends
   # GET /trends.json
   def index
-    @trends = Trend.where(to_user: current_user).order(created_at: :desc)
+    @trends = Trend.includes([:to_user, :from_user, :flux]).where(to_user: current_user).order(created_at: :desc)
+    # TODO: Need to optimize flux_images query
 
     respond_to do |format|
       format.html {render :index}

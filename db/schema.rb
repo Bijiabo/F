@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124150517) do
+ActiveRecord::Schema.define(version: 20160128102905) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -136,9 +136,10 @@ ActiveRecord::Schema.define(version: 20160124150517) do
     t.integer  "from_cat_id"
     t.integer  "flux_id"
     t.string   "trends_type"
-    t.boolean  "read",         default: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.boolean  "read",            default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "flux_comment_id"
   end
 
   add_index "trends", ["flux_id"], name: "index_trends_on_flux_id"
