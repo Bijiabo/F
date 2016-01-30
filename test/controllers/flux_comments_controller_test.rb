@@ -34,12 +34,12 @@ class FluxCommentsControllerTest < ActionController::TestCase
   end
 
   test "should create flux comment by json request" do
+    log_in_as @user
     assert_difference('FluxComment.count', 1) do
       post :create, {
           flux_comment: {
               content: @flux_comment.content,
               parentComment: @flux_comment.parentComment,
-              user_id: @flux_comment.user_id,
               flux_id: @flux_comment.flux.id
           },
           format: :json,

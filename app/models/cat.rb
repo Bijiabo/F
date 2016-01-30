@@ -16,4 +16,6 @@ class Cat < ActiveRecord::Base
   validates :age, presence: true, inclusion: 0..25, numericality: { only_integer: true }
   validates :breed, presence: true, length: {maximum: 50}
 
+  mount_uploader :avatar, PictureUploader
+
 end

@@ -1,7 +1,7 @@
 class CatsController < ApplicationController
 
-  before_action :logged_in_user, only: [:edit, :update, :destroy, :new, :setLocation]
-  before_action :set_cat, only: [:show, :edit, :update, :destroy, :setLocation]
+  before_action :logged_in_user, only: [:edit, :update, :destroy, :new, :setLocation, :update_information]
+  before_action :set_cat, only: [:show, :edit, :update, :destroy, :setLocation, :update_information]
   before_action :shouldBeOwner, only: [:edit, :update, :destroy, :setLocation]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
@@ -99,6 +99,23 @@ class CatsController < ApplicationController
         render json: {success: success, description: description}
       }
     end
+  end
+
+  def update_information
+    update_params = params.require(:cat)
+
+    update_data = Hash.new
+
+    update_params.each do |key, value|
+      next if !["id", "name", "age", "avatar", "breed", "latitude", "longitude"].include?(key)
+      if Cat.column_names.include? key
+        update_data[key] = value
+      end
+    end
+
+    @success = @cat.update(update_data) ? true : false
+
+    render :show
   end
 
   def destroy

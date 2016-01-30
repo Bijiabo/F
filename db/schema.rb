@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160128102905) do
+ActiveRecord::Schema.define(version: 20160129091348) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160128102905) do
     t.integer  "user_id"
     t.decimal  "latitude",   precision: 15, scale: 13
     t.decimal  "longitude",  precision: 15, scale: 13
+    t.string   "avatar"
   end
 
   add_index "cats", ["user_id"], name: "index_cats_on_user_id"
