@@ -1,7 +1,7 @@
 class CatsController < ApplicationController
 
   before_action :logged_in_user, only: [:edit, :update, :destroy, :new, :setLocation, :update_information]
-  before_action :set_cat, only: [:show, :edit, :update, :destroy, :setLocation, :update_information]
+  before_action :set_cat, only: [:edit, :update, :destroy, :setLocation, :update_information]
   before_action :shouldBeOwner, only: [:edit, :update, :destroy, :setLocation]
 
   skip_before_action :verify_authenticity_token, if: :json_request?
@@ -24,34 +24,15 @@ class CatsController < ApplicationController
   end
 
   def show
+    @cat = Cat.includes(:user).find_by(id: params[:id])
+
     respond_to do |format|
       format.html do
         render 'show'
       end
 
       format.json do
-        archive = [
-            {
-                key: "name",
-                value: @cat.name,
-                title: "名字"
-            },
-            {
-                key: "age",
-                value: @cat.age,
-                title: "年龄"
-            },
-            {
-                key: "breed",
-                value: @cat.breed,
-                title: "品种"
-            }
-        ]
-
-        render json: {
-            catData: @cat,
-            archive: archive
-        }
+        render :show
       end
     end
   end
