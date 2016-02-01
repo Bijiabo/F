@@ -76,27 +76,10 @@ class CatsController < ApplicationController
           render 'edit'
         end
       }
-      format.json {
-        render json: {success: success, description: description}
-      }
-    end
-  end
-
-  def update_information
-    update_params = params.require(:cat)
-
-    update_data = Hash.new
-
-    update_params.each do |key, value|
-      next if !["id", "name", "age", "avatar", "breed", "latitude", "longitude"].include?(key)
-      if Cat.column_names.include? key
-        update_data[key] = value
+      format.json do
+        render :show
       end
     end
-
-    @success = @cat.update(update_data) ? true : false
-
-    render :show
   end
 
   def destroy
@@ -169,7 +152,7 @@ class CatsController < ApplicationController
   private
 
     def cat_params
-      params.require(:cat).permit(:name, :age, :breed, :user_id)
+      params.require(:cat).permit(:name, :age, :breed, :user_id, :gender, :latitude, :longitude, :avatar)
     end
 
     def set_cat

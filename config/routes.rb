@@ -69,7 +69,7 @@ Rails.application.routes.draw do
   resources :cats do
     member do
       post :setLocation
-      post :update_information
+      post :update
     end
   end
   get 'catsModelKeys' => 'cats#modelKeys'
