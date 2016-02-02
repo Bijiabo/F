@@ -9,6 +9,8 @@ json.flux do
       json.path image.picture.url
     end
   end
+
+  json.like @flux_likes.include?(@flux.id)
 end
 
 json.user do

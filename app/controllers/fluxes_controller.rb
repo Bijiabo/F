@@ -12,6 +12,7 @@ class FluxesController < ApplicationController
     page = Integer(params[:page]) > 0 ? Integer(params[:page]) : 1 if params[:page]
     @following = []
     @following = current_user.following.select(:id).map {|user| user.id} if logged_in?
+    @flux_likes = logged_in? ? current_user.flux_likes.map {|item| item.flux.id} : []
 
     respond_to do |format|
       format.html do
@@ -44,6 +45,7 @@ class FluxesController < ApplicationController
     else
       @is_following = false
       @is_following = current_user.following? @flux.user if logged_in?
+      @flux_likes = logged_in? ? current_user.flux_likes.map {|item| item.flux.id} : []
       respond_to do |format|
         format.html do
           render 'show'

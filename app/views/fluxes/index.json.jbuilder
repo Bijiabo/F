@@ -10,6 +10,8 @@ json.array!(@fluxes) do |flux|
         json.path image.picture.url
       end
     end
+
+    json.like @flux_likes.include?(flux.id)
   end
 
   if user = flux.user

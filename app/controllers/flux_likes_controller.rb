@@ -28,7 +28,13 @@ class FluxLikesController < ApplicationController
   # POST /flux_likes
   # POST /flux_likes.json
   def create
-    @flux_like = FluxLike.new(flux_like_params)
+
+    if FluxLike.where({flux_id: flux_like_params[:flux_id], user: current_user}).count > 0
+      render json: {success: false, description: "Has been liked."}
+      return
+    end
+
+    @flux_like = FluxLike.new({flux_id: flux_like_params[:flux_id], user: current_user})
 
     if @flux_like.user.id != current_user.id
       render json: {success: false, description: 'Parameter error: wrong user id.'}
@@ -48,10 +54,10 @@ class FluxLikesController < ApplicationController
         end
 
         format.html { redirect_to @flux_like, notice: 'Flux like was successfully created.' }
-        format.json { render :show, status: :created, location: @flux_like }
+        format.json { render json: {success: true} }
       else
         format.html { render :new }
-        format.json { render json: @flux_like.errors, status: :unprocessable_entity }
+        format.json { render json: {success: false, description: "Save flux like error."} }
       end
     end
   end
@@ -83,7 +89,7 @@ class FluxLikesController < ApplicationController
   end
 
   def cancel_like
-    @flux_like = FluxLike.find_by flux_id: params[:flux_id]
+    @flux_like = FluxLike.find_by flux_id: flux_like_params[:flux_id], user: current_user
     reduce_flux_like_count
     result = {success: false}
     unless @flux_like
@@ -104,7 +110,7 @@ class FluxLikesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_like_params
-      params.require(:flux_like).permit(:user_id, :flux_id)
+      params.require(:flux_like).permit(:flux_id)
     end
 
     def logged_in_user
@@ -123,7 +129,7 @@ class FluxLikesController < ApplicationController
     end
 
     def correct_user
-      @flux_like = FluxLike.find(params[:id])
+      @flux_like = FluxLike.find(flux_like_params[:flux_id])
       if @flux_like.user_id != current_user.id
         respond_to do |format|
           format.html do
@@ -138,10 +144,8 @@ class FluxLikesController < ApplicationController
     end
 
     def reduce_flux_like_count
-      if flux = Flux.find_by(@flux_like.flux.id)
-        flux.increment :like_count, -1
-        flux.save
-      end
+      @flux_like.flux.increment :like_count, -1
+      @flux_like.flux.save
     end
 
   protected

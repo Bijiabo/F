@@ -4,4 +4,5 @@ class FluxLike < ActiveRecord::Base
 
   validates :user, presence: true
   validates :flux, presence: true
+
 end
