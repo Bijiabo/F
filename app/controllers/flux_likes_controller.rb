@@ -29,12 +29,12 @@ class FluxLikesController < ApplicationController
   # POST /flux_likes.json
   def create
 
-    if FluxLike.where({flux_id: flux_like_params[:flux_id], user: current_user}).count > 0
+    if FluxLike.where({flux_id: flux_like_params[:flux_id], flux_comment_id: flux_like_params[:flux_comment_id], user: current_user}).count > 0
       render json: {success: false, description: "Has been liked."}
       return
     end
 
-    @flux_like = FluxLike.new({flux_id: flux_like_params[:flux_id], user: current_user})
+    @flux_like = FluxLike.new({flux_id: flux_like_params[:flux_id], flux_comment_id: flux_like_params[:flux_comment_id], user: current_user})
 
     if @flux_like.user.id != current_user.id
       render json: {success: false, description: 'Parameter error: wrong user id.'}
@@ -45,12 +45,18 @@ class FluxLikesController < ApplicationController
       if @flux_like.save
 
         if flux = Flux.find_by(id: @flux_like.flux.id)
-          # update flux comment count
-          flux.increment :like_count, 1
-          flux.save
-
-          # send trends to user
-          createTrends flux.user_id, TrendsHelper::Type::FLUX_LIKE, flux
+          if flux_like_params[:flux_comment_id] == nil
+            # update flux comment count
+            flux.increment :like_count, 1
+            flux.save
+            # send trends to user
+            createTrends flux.user_id, TrendsHelper::Type::FLUX_LIKE, flux
+          elsif flux_comment = @flux_like.flux_comment
+            flux_comment.increment :like_count, 1
+            flux_comment.save
+            # send trends to user
+            createTrends flux_comment.user_id, TrendsHelper::Type::FLUX_COMMENT_THUMBS, flux
+          end
         end
 
         format.html { redirect_to @flux_like, notice: 'Flux like was successfully created.' }
@@ -89,7 +95,7 @@ class FluxLikesController < ApplicationController
   end
 
   def cancel_like
-    @flux_like = FluxLike.find_by flux_id: flux_like_params[:flux_id], user: current_user
+    @flux_like = FluxLike.find_by flux_id: flux_like_params[:flux_id], flux_comment_id: flux_like_params[:flux_comment_id], user: current_user
     reduce_flux_like_count
     result = {success: false}
     unless @flux_like
@@ -110,7 +116,7 @@ class FluxLikesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def flux_like_params
-      params.require(:flux_like).permit(:flux_id)
+      params.require(:flux_like).permit(:flux_id, :flux_comment_id)
     end
 
     def logged_in_user
@@ -144,8 +150,13 @@ class FluxLikesController < ApplicationController
     end
 
     def reduce_flux_like_count
-      @flux_like.flux.increment :like_count, -1
-      @flux_like.flux.save
+      if @flux_like.flux_comment == nil
+        @flux_like.flux.increment :like_count, -1
+        @flux_like.flux.save
+      else
+        @flux_like.flux_comment.increment :like_count, -1
+        @flux_like.flux_comment.save
+      end
     end
 
   protected

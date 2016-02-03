@@ -1,4 +1,8 @@
-json.comment @flux_comment
+json.comment do
+  json.extract! @flux_comment, :id, :content
+  json.created_at format_date @flux_comment.created_at
+  json.like_count @flux_comment.flux_likes.count
+end
 
 if @flux_comment.parentComment
   json.parent_comment do

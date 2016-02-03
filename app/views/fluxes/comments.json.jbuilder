@@ -4,6 +4,8 @@ json.array!(@comments) do |comment|
     json.id comment.id
     json.content comment.content
     json.created_at format_date comment.created_at
+    json.like_count comment.like_count
+    json.like @like_comment_ids.include? comment.id
   end
 
   if comment.parentComment

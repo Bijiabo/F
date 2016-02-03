@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160131163113) do
+ActiveRecord::Schema.define(version: 20160203145607) do
 
   create_table "cats", force: :cascade do |t|
     t.string   "name"
@@ -32,11 +32,12 @@ ActiveRecord::Schema.define(version: 20160131163113) do
     t.text     "content"
     t.integer  "user_id"
     t.integer  "flux_comments_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "childComment_id"
     t.integer  "parentComment_id"
     t.integer  "flux_id"
+    t.integer  "like_count",       default: 0
   end
 
   add_index "flux_comments", ["flux_comments_id"], name: "index_flux_comments_on_flux_comments_id"
@@ -58,8 +59,9 @@ ActiveRecord::Schema.define(version: 20160131163113) do
   create_table "flux_likes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "flux_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "flux_comment_id"
   end
 
   add_index "flux_likes", ["flux_id"], name: "index_flux_likes_on_flux_id"

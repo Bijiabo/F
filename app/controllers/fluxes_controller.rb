@@ -165,6 +165,7 @@ class FluxesController < ApplicationController
 
   def comments
     @comments = FluxComment.where({flux_id: params[:id]}).includes(:user,:parentComment)
+    @like_comment_ids = logged_in? ? FluxLike.where({flux_id: params[:id], user: current_user}).where.not(flux_comment: nil).select(:flux_comment_id).map {|item| item.flux_comment_id} : []
     render :comments
   end
 
