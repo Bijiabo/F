@@ -1,4 +1,4 @@
-json.extract! @cat, :id, :name, :age, :breed, :gender
+json.extract! @cat, :id, :name, :age, :breed, :gender, :latitude, :longitude
 json.avatar avatar_for_user @cat
 
 json.user do

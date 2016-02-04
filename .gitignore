@@ -50,3 +50,7 @@ config/application.yml
 config/certificate.pem
 
 public/assets/*
+
+config/database.yml
+
+db/schema.rb
