@@ -145,8 +145,8 @@ class CatsController < ApplicationController
   def nearby
     requestLocation = params.permit(:latitude, :longitude)
     location = [requestLocation["latitude"], requestLocation["longitude"]]
-    cats = Cat.within(5, :origin => location)
-    render json: cats
+    @cats = Cat.within(5, :origin => location)
+    render :index
   end
 
   private
