@@ -7,9 +7,9 @@ class PrivateMessagesController < ApplicationController
   # GET /private_messages
   # GET /private_messages.json
   def index
-    @private_messages = PrivateMessage.where('toUser_id = ? OR fromUser_id = ?', current_user.id, current_user.id).includes([:fromUser,:toUser])
-    senders = @private_messages.map {|message| message.fromUser}
-    receivers = @private_messages.map {|message| message.toUser}
+    @private_messages = PrivateMessage.where('to_user_id = ? OR from_user_id = ?', current_user.id, current_user.id).includes([:from_user,:to_user])
+    senders = @private_messages.map {|message| message.from_user}
+    receivers = @private_messages.map {|message| message.to_user}
     @groups = senders.uniq.delete_if {|x|x==current_user} .map do |sender|
       count = senders.select {|x| x==sender} .count
       receivers.each do |receiver|
@@ -18,13 +18,13 @@ class PrivateMessagesController < ApplicationController
           receivers.delete_if {|x|x==receiver}
         end
       end
-      latestMessage = @private_messages.order(created_at: :desc).where('toUser_id = ? OR fromUser_id = ?', sender.id, sender.id).limit(1).first()
+      latestMessage = @private_messages.order(created_at: :desc).where('to_user_id = ? OR from_user_id = ?', sender.id, sender.id).limit(1).first()
       {user: sender, count: count, latestMessage: latestMessage}
     end
 
     @groups += receivers.uniq.delete_if {|x|x==current_user} .map do |receiver|
       count = receivers.select {|x|x==receiver} .count
-      latestMessage = @private_messages.order(created_at: :desc).where('toUser_id = ? OR fromUser_id = ?', receiver.id, receiver.id).limit(1).first()
+      latestMessage = @private_messages.order(created_at: :desc).where('to_user_id = ? OR from_user_id = ?', receiver.id, receiver.id).limit(1).first()
       {user: receiver, count: count, latestMessage: latestMessage}
     end
   end
@@ -47,7 +47,7 @@ class PrivateMessagesController < ApplicationController
   # POST /private_messages.json
   def create
     params = private_message_params
-    params[:fromUser_id] = current_user.id
+    params[:from_user_id] = current_user.id
     @private_message = PrivateMessage.new(params)
 
     respond_to do |format|
@@ -56,7 +56,7 @@ class PrivateMessagesController < ApplicationController
         if notification_content.empty?
           notification_content = "[私信] #{current_user.name}给你发送了一张图片"
         end
-        pushNotification params[:toUser_id], notification_content, 1
+        pushNotification params[:to_user_id], notification_content, 1
         format.html { redirect_to @private_message, notice: 'Private message was successfully created.' }
         format.json { render json: {success: true, data: @private_message} }
       else
@@ -92,7 +92,7 @@ class PrivateMessagesController < ApplicationController
 
   def with_user
     user_id = params[:id]
-    @private_messages = PrivateMessage.order(id: :asc).where('toUser_id = ? OR fromUser_id = ?', user_id, user_id).includes([:fromUser,:toUser])
+    @private_messages = PrivateMessage.order(id: :asc).where('to_user_id = ? OR from_user_id = ?', user_id, user_id).includes([:from_user,:to_user])
     render json: @private_messages
   end
 
@@ -104,6 +104,6 @@ class PrivateMessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def private_message_params
-      params.require(:private_message).permit(:toUser_id, :content, :picture)
+      params.require(:private_message).permit(:to_user_id, :content, :picture)
     end
 end

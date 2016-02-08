@@ -27,5 +27,6 @@ json.flux do
     end
 
     json.url flux_url(flux, format: :json)
+    json.like @flux_likes.include?(flux.id)
   end
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information, :update_information, :self_following]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :tokens, :create_token, :following, :followers, :avatar, :self_information, :update_information, :self_following, :userProfile]
   before_action :set_user, only: [ :edit, :update, :destroy, :cats, :avatar]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
@@ -16,6 +16,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.includes([:cats]).find_by(id: params[:id])
+    @flux_likes = logged_in? ? current_user.flux_likes.map {|item| item.flux.id} : []
+
     if @user.nil?
       error_description = "no such user."
       respond_to do |format|
@@ -210,13 +212,14 @@ class UsersController < ApplicationController
 
   def userProfile
     @user = User.find_by(id: params[:id])
-    success = !@user.nil?
-    render json: {success: success, user: @user}, except: [:password_digest, :reset_digest, :reset_sent_at, :activation_digest, :remember_digest]
+    @success = !@user.nil?
+    @thumb_count = Flux.where(user_id: @user.id).sum("like_count")
+    render :profile
   end
 
   def cats
     @title = "Cats"
-    render json: @user.cats
+    render :cats
   end
 
   private

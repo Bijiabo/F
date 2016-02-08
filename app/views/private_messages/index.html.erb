@@ -16,8 +16,8 @@
   <tbody>
     <% @private_messages.each do |private_message| %>
       <tr>
-        <td><%= private_message.toUser.name %></td>
-        <td><%= private_message.fromUser.name %></td>
+        <td><%= private_message.to_user.name %></td>
+        <td><%= private_message.from_user.name %></td>
         <td><%= private_message.content %></td>
         <td><%= private_message.picture %></td>
         <td><%= link_to 'Show', private_message %></td>

@@ -22,8 +22,8 @@ class User < ActiveRecord::Base
   # remote notification tokens
   has_many :remote_notification_tokens, dependent: :destroy, inverse_of: :user
   # private messages
-  has_many :send_private_message, class_name:  "PrivateMessage", foreign_key: "fromUser_id", dependent: :destroy
-  has_many :receive_private_message, class_name:  "PrivateMessage", foreign_key: "toUser_id", dependent: :destroy
+  has_many :send_private_message, class_name:  "PrivateMessage", foreign_key: "from_user_id", dependent: :destroy
+  has_many :receive_private_message, class_name:  "PrivateMessage", foreign_key: "to_user_id", dependent: :destroy
 
   mount_uploader :avatar, PictureUploader
 
