@@ -19,3 +19,10 @@ json.user do
   json.avatar avatar_for_user @flux.user
   json.following @is_following
 end
+
+json.cats do
+  json.array!(@flux.user.cats) do |cat|
+    json.name cat.name
+    json.age cat.age
+  end
+end

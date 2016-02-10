@@ -23,5 +23,12 @@ json.array!(@fluxes) do |flux|
     end
   end
 
+  json.cats do
+    json.array!(flux.user.cats) do |cat|
+      json.name cat.name
+      json.age cat.age
+    end
+  end
+
   json.url flux_url(flux, format: :json)
 end
